@@ -1,3 +1,6 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -11,7 +14,112 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
+
+    /* Teal/Cyan Professional Theme */
+    --background: 220 16% 14%;
+    --background-secondary: 220 18% 11%;
+    --foreground: 210 40% 98%;
+    
+    --card: 220 16% 16%;
+    --card-foreground: 210 40% 98%;
+    
+    --popover: 220 16% 16%;
+    --popover-foreground: 210 40% 98%;
+    
+    --primary: 174 82% 35%;
+    --primary-foreground: 210 40% 98%;
+    --primary-glow: 174 82% 45%;
+    
+    --secondary: 220 16% 22%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --muted: 220 16% 20%;
+    --muted-foreground: 215 20% 55%;
+    
+    --accent: 186 93% 48%;
+    --accent-foreground: 220 16% 10%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 220 16% 24%;
+    --input: 220 16% 22%;
+    --ring: 174 82% 35%;
+    
+    --radius: 0.75rem;
+    
+    /* Custom semantic tokens */
+    --timeline-dot: 186 93% 48%;
+    --timeline-line: 220 16% 30%;
+    --card-glow: 174 82% 35%;
+    --success: 158 64% 52%;
+    --warning: 43 96% 56%;
+    
+    /* Sidebar */
+    --sidebar-background: 220 16% 12%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 174 82% 35%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 220 16% 20%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 220 16% 24%;
+    --sidebar-ring: 174 82% 35%;
+    
+    /* Gradients */
+    --gradient-card: linear-gradient(135deg, hsl(220 16% 18%) 0%, hsl(220 16% 14%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(174 82% 35%) 0%, hsl(186 93% 48%) 100%);
+    --gradient-glow: radial-gradient(ellipse at center, hsl(174 82% 35% / 0.15) 0%, transparent 70%);
+  }
+
+  .theme-purple {
+    /* Purple/Indigo Modern Theme */
+    --background: 250 30% 14%;
+    --background-secondary: 250 35% 10%;
+    --foreground: 210 40% 98%;
+    
+    --card: 250 25% 18%;
+    --card-foreground: 210 40% 98%;
+    
+    --popover: 250 25% 18%;
+    --popover-foreground: 210 40% 98%;
+    
+    --primary: 239 84% 67%;
+    --primary-foreground: 210 40% 98%;
+    --primary-glow: 263 70% 50%;
+    
+    --secondary: 250 25% 24%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --muted: 250 25% 22%;
+    --muted-foreground: 250 20% 55%;
+    
+    --accent: 263 70% 72%;
+    --accent-foreground: 250 30% 10%;
+    
+    --border: 250 25% 28%;
+    --input: 250 25% 24%;
+    --ring: 239 84% 67%;
+    
+    --timeline-dot: 263 70% 72%;
+    --timeline-line: 250 25% 32%;
+    --card-glow: 239 84% 67%;
+    --success: 158 64% 52%;
+    --warning: 43 96% 56%;
+    
+    --sidebar-background: 250 30% 12%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 239 84% 67%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 250 25% 22%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 250 25% 28%;
+    --sidebar-ring: 239 84% 67%;
+    
+    --gradient-card: linear-gradient(135deg, hsl(250 25% 20%) 0%, hsl(250 25% 16%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(239 84% 67%) 0%, hsl(263 70% 72%) 100%);
+    --gradient-glow: radial-gradient(ellipse at center, hsl(239 84% 67% / 0.15) 0%, transparent 70%);
+  }
+
 
 a {
   font-weight: 500;
@@ -28,6 +136,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  width: 100%;
+  background-color: hsl(var(--background));
 }
 
 h1 {
@@ -49,20 +159,550 @@ button {
 button:hover {
   border-color: #646cff;
 }
-button:focus,
+/* button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+} */
+
+/* header -> navabar */
+header nav{
+  @apply w-full max-w-[1280px] flex justify-between items-center py-6 mb-5;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+nav h1 {
+  @apply text-3xl font-bold;
+}
+
+nav p {
+  @apply text-sm font-semibold;
+  color: hsl(var(--muted-foreground));
+}
+
+.theme-btn {
+  @apply px-4 py-2 rounded-lg;
+  background: hsl(var(--muted));
+  border: 1px solid hsl(var(--border));
+}
+
+/* ThemeToggleStyles.css */
+
+.theme-toggle-wrapper {
+  background-color: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  color: hsl(var(--foreground));
+  transition: box-shadow 0.3s ease;
+}
+
+.theme-toggle-wrapper:focus, .theme-toggle-wrapper:focus-visible, .theme-toggle-wrapper:active {
+  box-shadow: 0 0 0 3px hsla(var(--ring) / 0.5);
+  outline: none;
+}
+
+.theme-toggle-label {
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+
+.theme-toggle-icon {
+  color: hsl(var(--muted-foreground));
+}
+
+/* The Switch Element */
+.theme-switch-track {
+  width: 3.5rem;
+  height: 1.75rem;
+  background-color: hsl(var(--muted));
+  border-radius: 9999px;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.3s ease;
+  border: none;
+}
+
+.theme-switch-knob {
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: hsl(var(--accent));
+  border-radius: 50%;
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 8px hsla(var(--primary-glow) / 0.5);
+}
+
+/* Toggle Logic */
+.theme-switch-track[aria-checked="true"] .theme-switch-knob {
+  transform: translateX(1.75rem);
+}
+
+.theme-switch-track[aria-checked="true"] {
+  background-color: hsla(var(--primary) / 0.2);
+}
+
+/* creation wizard header */
+.creation-wizard-h1 {
+  @apply text-2xl font-medium capitalize mb-1;
+}
+
+.creation-wizard-p {
+  @apply text-xl mb-8;
+  color: hsl(var(--muted-foreground));
+}
+
+
+/* habit creation first step */
+.new-habit {
+  @apply w-full max-w-250 flex flex-col gap-6;
+  background: hsl(var(--card));
+  color: hsl(var(--muted-foreground));
+}
+
+.new-habit h2 {
+  @apply  text-3xl font-bold;
+  color: hsl(var(--foreground));
+}
+
+.welcome-board {
+  @apply rounded-2xl -mt-4;
+}
+
+.buttons {
+  @apply flex gap-2 w-full;
+  color: hsl(var(--foreground));
+}
+
+.buttons button:nth-child(1) {
+  @apply w-[80%] rounded-2xl;
+  background: linear-gradient(to right, hsl(var(--primary-glow)), hsl(var(--primary)));
+}
+
+.buttons button:nth-child(2) {
+  @apply w-[20%] rounded-2xl;
+  background: hsl(var(--muted));
+  border: 1px solid hsl(var(--border));
+}
+
+/*  article- first card */
+.first-card-title {
+  @apply p-4 rounded-2xl ;
+  background: hsl(var(--secondary));
+}
+
+.logo {
+  @apply text-4xl font-bold rounded p-2 text-white;
+  background: hsl(var(--primary));
+}
+
+.article-header {
+  @apply p-4;
+}
+
+.article-header{
+  @apply text-white;
+}
+
+/* count visble*/ 
+.count {
+  @apply -top-4 -left-4 text-xl font-semibold text-white;
+}
+
+.new-habit h2 {
+  @apply text-2xl font-medium text-white;
+}
+
+.new-habit {
+  @apply text-xl font-semibold;
+}
+
+/* ///////////////////// */
+/* Habit basics */
+.first-card-title.basics {
+  @apply h-25 font-normal;
+}
+
+.first-card-title.basics .logo.t {
+  @apply text-2xl w-10 h-10 flex justify-center items-center;
+  font-family: "Playfair Display", serif;
+}
+
+.first-card-title.basics .article-header {
+  @apply flex items-center gap-2 -mt-5;
+}
+
+.first-card-title.basics .article-header {
+  @apply text-white;
+}
+
+.buttons.basics {
+  @apply h-12;
+}
+
+.buttons.basics button:nth-child(1) {
+  @apply text-lg w-[70%];
+}
+
+.buttons.basics button:nth-child(2) {
+  @apply text-lg w-[30%];
+}
+
+.first-card-title.basics .article-header .info div {
+  @apply flex items-center gap-2 mt-2;
+}
+
+.first-card-title.basics .info p {
+  @apply w-10 h-10 rounded-full cursor-pointer;
+
+}
+
+.first-card-title.basics .info p.teal-dot {
+  @apply bg-teal-500;
+}
+
+.first-card-title.basics .info p.purple-dot {
+  @apply bg-purple-500;
+}
+
+.first-card-title.basics .info p.orange-dot {
+  @apply bg-orange-500;
+}
+
+.first-card-title.basics .info p.lemon-green-dot {
+  @apply bg-lime-500;
+}
+
+.first-card-title.basics .info {
+  margin-left: 1rem;
+}
+
+/* this section is for active theme for a habit */
+.first-card-title.basics .info p.active {
+  @apply border-4 border-white;
+}
+
+/* ///////////////////// */
+/* habit type selction */
+.first-card-title.type .logo.last-div {
+  @apply text-sm;
+  background: none;
+}
+
+.first-card-title.type {
+  @apply h-auto;
+}
+
+.first-card-title.type  .article-header {
+  @apply -mt-1;
+}
+
+.first-card-title.type .article-header {
+  @apply flex items-center gap-2;
+}
+
+.buttons.type button:nth-child(1) {
+  @apply text-lg w-[70%];
+}
+
+.buttons.type button:nth-child(2) {
+  @apply text-lg w-[30%];
+}
+
+
+.custom-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  top: -12px;
+}
+
+/* Hide native checkbox but keep it accessible */
+.custom-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Custom box */
+.checkmark {
+  width: 26px;
+  height: 25px;
+  border: 2px solid hsl(var(--muted-foreground)); /* teal */
+  border-radius: 50%;
+  background-color: hsl(var(--muted));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+/* Check icon */
+.checkmark::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border: solid white;
+  border-radius: 50%;
+  /* border-width: 0 2px 2px 0; */
+  transform: rotate(45deg);
+  display: none;
+}
+
+/* Checked state */
+.custom-checkbox input:checked + .checkmark {
+  background-color: #0f766e;
+  border-color: #0f766e;
+}
+
+.custom-checkbox input:checked + .checkmark::after {
+  display: block;
+}
+
+/* Hover */
+.custom-checkbox:hover .checkmark {
+  border-color: #14b8a6;
+}
+
+/* Focus (keyboard accessibility) */
+.custom-checkbox input:focus + .checkmark {
+  outline: 2px solid #5eead4;
+  outline-offset: 2px;
+}
+
+/* Optional label text */
+.label-text {
+  font-size: 14px;
+}
+
+.first-card-title.type .article-header .info {
+  @apply ml-2;
+}
+
+.first-card-title.type h3{
+  @apply flex gap-3 text-2xl items-center;
+}
+
+.first-card-title.type p{
+  @apply font-normal text-xl mt-2;
+  color: hsl(var(--muted-foreground));
+}
+
+.first-card-title.type h3 svg{
+  color: hsl(var(--accent));
+}
+
+.first-card-title.small-rectanagle .article-header {
+  @apply flex font-normal gap-1 items-center -mt-5;
+
+}
+
+.first-card-title.small-rectanagle .logo {
+  @apply text-2xl;
+  background: none;
+}
+
+/* /////////////////// */
+/* Habit configuration */
+/* Base Container & Typography */
+.habit-config-container {
+  background-color: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  color: hsl(var(--foreground));
+  border-radius: var(--radius);
+}
+
+.habit-text-muted { color: hsl(var(--muted-foreground)); }
+.habit-text-accent { color: hsl(var(--accent)); }
+
+/* List Items */
+.frequency-option {
+  background: var(--gradient-card);
+  border: 1px solid hsl(var(--border));
+  transition: all 0.2s ease-in-out;
+}
+
+.frequency-option:hover {
+  border-color: hsla(var(--primary) / 0.5);
+}
+
+.frequency-option.active {
+  border-color: hsl(var(--primary));
+  background: hsla(var(--primary) / 0.05);
+}
+
+/* Summary Box */
+.summary-box {
+  background-color: hsla(var(--muted) / 0.4);
+  border: 1px solid hsl(var(--border));
+}
+
+/* Buttons */
+.btn-next {
+  background: var(--gradient-primary);
+  box-shadow: 0 4px 20px hsla(var(--primary-glow) / 0.3);
+  color: white;
+}
+
+.btn-back {
+  background-color: hsl(var(--secondary));
+  border: 1px solid hsl(var(--border));
+  color: white;
+}
+
+/* Step & Progress Components */
+.step-badge {
+  background-color: hsl(var(--muted));
+  border: 1px solid hsl(var(--border));
+  color: hsl(var(--muted-foreground));
+}
+
+.progress-pill-container {
+  background-color: hsl(var(--secondary));
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.progress-bar-fill { background-color: hsl(var(--accent)); }
+.progress-bar-track { background-color: hsl(var(--muted)); }
+
+
+/* //////////////////// */
+/* Main Container */
+.motivation-container {
+  background-color: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  color: hsl(var(--foreground));
+  border-radius: var(--radius);
+}
+
+/* Step Badge (Top Left) */
+.motivation-badge {
+  background-color: hsl(var(--muted));
+  border: 1px solid hsl(var(--border));
+  color: hsl(var(--muted-foreground));
+}
+
+/* Option Rows (Obstacles, Emergency Plans, etc.) */
+.motivation-option-row {
+  background: var(--gradient-card);
+  border: 1px solid hsl(var(--border));
+  transition: all 0.2s ease-in-out;
+}
+
+.motivation-option-row:hover {
+  border-color: hsla(var(--primary) / 0.4);
+  transform: translateY(-1px);
+}
+
+/* Action Buttons (The smaller hollow buttons with icons) */
+.motivation-action-btn {
+  background-color: transparent;
+  border: 1px solid hsl(var(--border));
+  color: hsl(var(--foreground));
+  transition: background-color 0.2s;
+}
+
+.motivation-action-btn:hover {
+  background-color: hsl(var(--secondary));
+}
+
+/* Finish Button (Large Primary) */
+.motivation-btn-finish {
+  background: var(--gradient-primary);
+  box-shadow: 0 4px 20px hsla(var(--primary-glow) / 0.35);
+  color: white;
+}
+
+.motivation-btn-finish:active {
+  transform: scale(0.98);
+}
+
+/* Back Button */
+.motivation-btn-back {
+  background-color: hsl(var(--secondary));
+  border: 1px solid hsl(var(--border));
+  color: white;
+}
+
+/* Accents & Icons */
+.motivation-icon-accent {
+  color: hsl(var(--accent));
+}
+
+.motivation-text-muted {
+  color: hsl(var(--muted-foreground));
+}
+
+.motivation-circle-indicator {
+  border: 2px solid hsla(var(--muted-foreground) / 0.2);
+}
+
+/* /////////////////// */
+/* Dashboard Styles  */
+/* Container & Backgrounds */
+.dashboard-container {
+  background-color: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  color: hsl(var(--foreground));
+}
+
+.step-badge-dashboard {
+  background-color: hsl(var(--muted));
+  border: 1px solid hsl(var(--border));
+  color: hsl(var(--muted-foreground));
+}
+
+/* Typography */
+.dashboard-title {
+  color: hsl(var(--foreground));
+}
+
+.dashboard-description {
+  @apply text-xl;
+  color: hsl(var(--muted-foreground));
+}
+
+/* Menu Items */
+.dashboard-menu-item {
+  @apply rounded-xl h-15;
+  transition: opacity 0.2s ease;
+  padding: 0 1em;
+}
+
+.dashboard-menu-item:hover {
+  background-color: hsl(var(--secondary));
+}
+
+.dashboard-icon {
+  color: hsl(var(--accent));
+}
+
+.dashboard-link-text {
+  color: hsl(var(--foreground));
+}
+
+/* Progress Footer */
+.dashboard-footer-pill {
+  background-color: hsl(var(--secondary));
+  border: 1px solid hsl(var(--border));
+}
+
+.dashboard-progress-track {
+  background-color: hsl(var(--muted));
+}
+
+.dashboard-progress-fill {
+  background-color: hsl(var(--accent));
+}
+
+.dashboard-step-text {
+  color: hsl(var(--muted-foreground));
+}
+
+.dashboard-step-highlight {
+  color: hsl(var(--foreground));
 }
