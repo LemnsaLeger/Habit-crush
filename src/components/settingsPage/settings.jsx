@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, Palette, Bell, Database, Monitor, User, ChevronRight, Clock } from "lucide-react";
+import { ArrowLeft, Palette, Bell, Database, Monitor, User, ChevronRight, ChevronDown, Clock, Download, Upload, Trash2 } from "lucide-react";
 import "../../index.css";
 import { useNavigate } from "react-router-dom";
 
@@ -83,7 +83,12 @@ export default function SettingsPage() {
                             {item.label}
                           </span>
                         </span>
-                        <ChevronRight size={16} aria-hidden="true" />
+                        {/* change chrevon on active item */}
+                        {isActive ? (
+                          <ChevronDown size={16} aria-hidden="true" />
+                        ) : (
+                          <ChevronRight size={16} aria-hidden="true" />
+                        )}
                       </button>
                     </li>
                   );
@@ -270,14 +275,55 @@ export default function SettingsPage() {
                       disabled={!remindersEnabled}
                       aria-label="set reminder time"
                     />
-
                   </div>
                 </section>
               </article>
             )}
 
-            {(activeSelection === "data" ||
-              activeSelection === "display" ||
+            {/* data tabbed */}
+            {activeSelection === "data" && (
+              <article className="settings-content p-8 rounded-xl">
+                <header className="section-header flex items-center gap-3 mt-8">
+                  <Database
+                    size={24}
+                    className="section-icon"
+                    aria-hidden="true"
+                  />
+                  <div>
+                    <h2 className="section-title text-2xl font-semibold">
+                      Data Management
+                    </h2>
+                    <p className="section-description text-sm mt-1">
+                      Export, import, or clear your data
+                    </p>
+                  </div>
+                </header>
+
+                {/* Export and Import Buttons */}
+                <section className="settings-section mt-4 mb-8">
+                  <div className="data-actions">
+                    <button className="action-button secondary">
+                      <Download size={18} aria-hidden="true" />
+                      <span>Export Data (PDF)</span>
+                    </button>
+                    <button className="action-button secondary">
+                      <Upload size={18} aria-hidden="true" />
+                      <span>Import Data[expertise still loading or pay]</span>
+                    </button>
+                  </div>
+                </section>
+
+                {/* Clear All Data */}
+                <section className="settings-section mb-8">
+                  <button className="action-button destructive">
+                    <Trash2 size={18} aria-hidden="true" />
+                    <span>Clear All Data</span>
+                  </button>
+                </section>
+              </article>
+            )}
+
+            {(activeSelection === "display" ||
               activeSelection === "account") && (
               <article className="settings-content">
                 <div className="empty-state">
