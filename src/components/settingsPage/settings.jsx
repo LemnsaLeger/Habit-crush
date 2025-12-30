@@ -11,7 +11,10 @@ export default function SettingsPage() {
     const [selectedTheme, setSelectedTheme] = useState("teal");
     const [animationsnabled, setAnimationsEnabled] = useState(true);
     const [remindersEnabled, setRemindersEnabled] = useState(true);
-    const [reminderTime, setReminderTime] = useState('10:07');
+    const [reminderTime, setReminderTime] = useState("10:07");
+    const [startOfWeek, setStartOfWeek] = useState("Sunday");
+    const [dateFormat, setDateFormat] = useState("YYYY-MM-DD");
+    const [defaultScreen, setDefaultScreen] = useState("Habit List");
 
 
     const handleThemeChange = (theme) => {
@@ -323,8 +326,85 @@ export default function SettingsPage() {
               </article>
             )}
 
-            {(activeSelection === "display" ||
-              activeSelection === "account") && (
+            {/* Display and preferences */}
+            {activeSelection === "display" && (
+              <article className="settings-content p-8 rounded-xl">
+                <header className="section-header flex items-center gap-3 mt-8">
+                  <Monitor
+                    size={24}
+                    className="section-icon"
+                    aria-hidden="true"
+                  />
+                  <div>
+                    <h2 className="section-title text-2xl font-semibold">
+                      Display Preferences
+                    </h2>
+                    <p className="section-description text-sm mt-1">
+                      Customize how information is displayed
+                    </p>
+                  </div>
+                </header>
+
+                {/* Start of Week */}
+                <section className="settings-section mb-8">
+                  <h3 className="subsection-title">Start of Week</h3>
+                  <div className="select-wrapper">
+                    <select
+                      value={startOfWeek}
+                      onChange={(e) => setStartOfWeek(e.target.value)}
+                      className="custom-select"
+                      aria-label="Select start of week"
+                    >
+                      <option value="Sunday">Sunday</option>
+                      <option value="Monday">Monday</option>
+                      <option value="Tuesday">Tuesday</option>
+                      <option value="Wednesday">Wednesday</option>
+                      <option value="Thursday">Thursday</option>
+                      <option value="Friday">Friday</option>
+                      <option value="Saturday">Saturday</option>
+                    </select>
+                  </div>
+                </section>
+
+                {/* Date Format */}
+                <section className="settings-section mb-8">
+                  <h3 className="subsection-title">Date Format</h3>
+                  <div className="select-wrapper">
+                    <select
+                      value={dateFormat}
+                      onChange={(e) => setDateFormat(e.target.value)}
+                      className="custom-select"
+                      aria-label="Select date format"
+                    >
+                      <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                      <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                      <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                      <option value="DD-MM-YYYY">DD-MM-YYYY</option>
+                    </select>
+                  </div>
+                </section>
+
+                {/* Default Screen */}
+                <section className="settings-section mb-8">
+                  <h3 className="subsection-title">Default Screen</h3>
+                  <div className="select-wrapper">
+                    <select
+                      value={defaultScreen}
+                      onChange={(e) => setDefaultScreen(e.target.value)}
+                      className="custom-select"
+                      aria-label="Select default screen"
+                    >
+                      <option value="Habits List">Habits List</option>
+                      <option value="Dashboard">Dashboard</option>
+                      {/* <option value="Statistics">Statistics</option>
+                      <option value="Calendar">Calendar</option> */}
+                    </select>
+                  </div>
+                </section>
+              </article>
+            )}
+
+            {activeSelection === "account" && (
               <article className="settings-content">
                 <div className="empty-state">
                   <p className="empty-state-text">
