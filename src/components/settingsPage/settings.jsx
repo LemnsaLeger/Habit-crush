@@ -1,13 +1,17 @@
 import { useState } from "react";
-import { ArrowLeft, Palette, Bell, Database, Monitor, User, ChevronRight } from "lucide-react";
+import { ArrowLeft, Palette, Bell, Database, Monitor, User, ChevronRight, Clock } from "lucide-react";
 import "../../index.css";
+import { useNavigate } from "react-router-dom";
 
 
 export default function SettingsPage() {
 
+    const navigate = useNavigate();
     const [activeSelection, setActiveSelection] = useState("theme");
     const [selectedTheme, setSelectedTheme] = useState("teal");
     const [animationsnabled, setAnimationsEnabled] = useState(true);
+    const [remindersEnabled, setRemindersEnabled] = useState(true);
+    const [reminderTime, setReminderTime] = useState('10:07');
 
 
     const handleThemeChange = (theme) => {
@@ -40,7 +44,8 @@ export default function SettingsPage() {
       <div className=" settings-container min-h-screen mt-10">
         <header className="px-8 py-6">
           <button
-            className="flex items-center gap-2 transition-colors mb-4"
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2 transition-colors mb-4 go-back"
             arial-label="Go back"
           >
             <ArrowLeft size={20} />
@@ -70,6 +75,7 @@ export default function SettingsPage() {
                             : "text-[hsl(var(--muted-foreground))] hover:bg-[hsl(var(--secondary)) hover:text-[hsl(var(--foreground))]"
                         }`}
                         aria-current={isActive ? "page" : undefined}
+                        onClick={() => setActiveSelection(item.id)}
                       >
                         <span className="flex items-center gap-3">
                           <Icon size={18} aria-hidden="true" />
@@ -87,7 +93,7 @@ export default function SettingsPage() {
           </aside>
 
           {/* content here */}
-          <section className="flex-1 border rounded-xl p-8">
+          <section className="flex-1 p-8">
             {activeSelection === "theme" && (
               <article>
                 <header className="flex items-center gap-3 mb-6">
@@ -212,13 +218,78 @@ export default function SettingsPage() {
               </article>
             )}
 
-            {activeSelection !== "theme" && (
-              <div className="text-center py-12">
-                <p id="label">
-                  {menuItems.find((item) => item.id === activeSelection)?.label}{" "}
-                  section coming soon...
-                </p>
-              </div>
+            {/* reminders tabbed */}
+            {activeSelection === "reminders" && (
+              <article className="settings-content p-8 rounded-xl">
+                <header className="section-header flex items-center gap-3 mt-8">
+                  <Bell size={24} aria-hidden="true" className="section-icon" />
+                  <div>
+                    <h2 className="section-title text-2xl font-semibold">
+                      Reminders
+                    </h2>
+                    <p className="section-description text-sm mt-1">
+                      Configure your notification Preferences
+                    </p>
+                  </div>
+                </header>
+
+                {/* enable reminders */}
+                <section className="settings-section mb-8">
+                  <div className="toggle-row w-full flex items-center justify-between mt-2">
+                    <div>
+                      <h3 className="subsection-title">Enable Reminders</h3>
+                      <p className="toggle-description text-[0.875rem] mt-1">
+                        Receive daily habit reminders
+                      </p>
+                    </div>
+                    <button
+                      role="switch"
+                      aria-checked={remindersEnabled}
+                      onClick={() => setAnimationsEnabled(!remindersEnabled)}
+                      className={`toggle-switch relative inline-flex h-8 w-14 items-center ${
+                        remindersEnabled ? "active" : ""
+                      }`}
+                      aria-label="Toggle reminders"
+                    >
+                      <span className="toggle-knob inline-block h-6 w-6 bg-white"></span>
+                    </button>
+                  </div>
+                </section>
+
+                {/* reminder time */}
+                <section className="settings-section border-top pt-6">
+                  <h3 className="subsection-title text-[1.125rem] font-medium mb-4">
+                    Reminder Time
+                  </h3>
+                  <div className="time-input-wrapper relative inline-flex items-center max-w-40">
+                    <input
+                      type="time"
+                      value={reminderTime}
+                      onChange={(e) => setReminderTime(e.target.value)}
+                      className="time-input pr-10 font-medium w-full cursor-pointer text-sm rounded-2xl"
+                      disabled={!remindersEnabled}
+                      aria-label="set reminder time"
+                    />
+
+                  </div>
+                </section>
+              </article>
+            )}
+
+            {(activeSelection === "data" ||
+              activeSelection === "display" ||
+              activeSelection === "account") && (
+              <article className="settings-content">
+                <div className="empty-state">
+                  <p className="empty-state-text">
+                    {
+                      menuItems.find((item) => item.id === activeSelection)
+                        ?.label
+                    }{" "}
+                    section coming soon...
+                  </p>
+                </div>
+              </article>
             )}
           </section>
         </main>
