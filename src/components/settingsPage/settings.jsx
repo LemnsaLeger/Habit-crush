@@ -404,17 +404,35 @@ export default function SettingsPage() {
               </article>
             )}
 
+            {/* Accouunt page */}
             {activeSelection === "account" && (
-              <article className="settings-content">
-                <div className="empty-state">
-                  <p className="empty-state-text">
-                    {
-                      menuItems.find((item) => item.id === activeSelection)
-                        ?.label
-                    }{" "}
-                    section coming soon...
+              <article className="settings-content p-8 rounded-xl">
+                <header className="section-header flex items-center gap-3 mt-8">
+                  <User size={24} className="section-icon" aria-hidden="true" />
+                  <div>
+                    <h2 className="section-title text-2xl font-semibold">
+                      Account
+                    </h2>
+                    <p className="section-description text-sm mt-1">
+                      Manage your account settings
+                    </p>
+                  </div>
+                </header>
+
+                {/* Account Coming Soon */}
+                <section className="account-empty-state">
+                  <div className="account-icon-wrapper">
+                    <User
+                      size={48}
+                      className="account-icon"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <p className="account-coming-soon">
+                    Account features coming soon
                   </p>
-                </div>
+                  <p className="account-version">Version 1.0.0</p>
+                </section>
               </article>
             )}
           </section>
