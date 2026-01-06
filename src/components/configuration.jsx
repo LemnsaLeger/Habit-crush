@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   Calendar,
   Repeat,
@@ -9,8 +8,9 @@ import {
 } from "lucide-react";
 import "../index.css";
 
-const HabitFrequencyConfigurator = () => {
-  const [selected, setSelected] = useState("daily");
+const HabitFrequencyConfigurator = ({ habit, active, setHabit, onNext, onBack }) => {
+
+  const selected = habit.frequency || "daily";
 
   const options = [
     { id: "daily", label: "Daily (Every day)", icon: Calendar },
@@ -19,8 +19,14 @@ const HabitFrequencyConfigurator = () => {
     { id: "specific", label: "Specific days of week", icon: CalendarDays },
   ];
 
+  const isValid = Boolean(selected);
+
   return (
-    <div className="flex items-center justify-center min-h-screen h-full p-4 -mt-20">
+    <div
+      className={`${
+        active ? "ring-2 ring-[hsl(var(--border))]" : ""
+      } flex items-center justify-center min-h-screen h-full p-4 -mt-20`}
+    >
       <div className="habit-config-container relative w-300 max-w-400 p-8">
         {/* Step Badge */}
         <div className="step-badge absolute -top-4 -left-4 w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">
@@ -43,7 +49,9 @@ const HabitFrequencyConfigurator = () => {
           {options.map((option) => (
             <button
               key={option.id}
-              onClick={() => setSelected(option.id)}
+              onClick={() => 
+                setHabit({...habit, frequency: option.id })
+              }
               className={`frequency-option flex items-center gap-4 p-4 rounded-xl text-left ${
                 selected === option.id ? "active" : ""
               }`}
@@ -81,30 +89,25 @@ const HabitFrequencyConfigurator = () => {
             Visual Summary
           </span>
           <p className="text-xl font-semibold flex items-center gap-2">
-            Daily{" "}
+            {options.find((option) => option.id === selected)?.label || "Not set"}
             <span className="w-1.5 h-1.5 rounded-full bg-white opacity-50"></span>
           </p>
         </div>
 
         {/* Navigation */}
         <div className="flex flex-row-reverse items-center justify-between gap-4">
-          <button className="btn-next flex-1 py-3 px-6 rounded-xl font-bold text-sm transition-all active:scale-95">
+          <button className="btn-next flex-1 py-3 px-6 rounded-xl font-bold text-sm transition-all active:scale-95" onClick={onNext}
+          disabled={!isValid}
+          >
             Next: Setup Motivation
           </button>
-          <button className="btn-back px-8 py-3 rounded-xl font-bold text-sm transition-colors">
+          <button className="btn-back px-8 py-3 rounded-xl font-bold text-sm transition-colors" onClick={onBack}>
             Back: Set Target
           </button>
         </div>
 
         {/* Floating Progress Tracker */}
-        <div className="progress-pill-container absolute -bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 px-6 py-2.5 rounded-full">
-          {/* <span className="habit-text-muted text-xs font-semibold whitespace-nowrap">
-            Step <span className="text-white">1</span> of 7
-          </span> */}
-          {/* <div className="progress-bar-track w-24 h-1.5 rounded-full overflow-hidden">
-            <div className="progress-bar-fill h-full w-[14%]" />
-          </div> */}
-        </div>
+        <div className="progress-pill-container absolute -bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 px-6 py-2.5 rounded-full"></div>
       </div>
     </div>
   );
