@@ -1,6 +1,22 @@
 
-import { Brain, Shield, Sparkles, Bell, Circle } from "lucide-react";
-const MotivationSetup = () => {
+import { Brain, Shield, Sparkles, Bell, Circle, CheckCircle2 } from "lucide-react";
+const MotivationSetup = ({ habit, active, setHabit, onFinish, onBack }) => {
+
+  // toggle motivation option
+  const toggleMotivation = (id) => {
+    setHabit({
+      ...habit,
+      motivation : {
+        ...habit.motivation,
+        [id]: !habit.motivation[id]
+      }
+    })
+  }
+
+  // Check if any motivation option is enabled
+  const hasMotivation =
+    habit.motivation && Object.values(habit.motivation).some(Boolean);
+
   const options = [
     { id: "pre", label: "Pre-mortem obstacles", icon: Brain },
     { id: "emergency", label: "Emergency plans", icon: Shield },
@@ -8,7 +24,11 @@ const MotivationSetup = () => {
   ];
 
   return (
-    <div className="flex items-center justify-center p-6 min-h-screen w-full">
+    <div
+      className={`${
+        active ? "ring-2 ring-[hsl(var(--border))]" : ""
+      } flex items-center justify-center p-6 min-h-screen w-full`}
+    >
       <div className="motivation-container relative w-300 max-w-400 p-8 md:p-10">
         {/* Step Badge */}
         <div className="motivation-badge absolute -top-3 -left-3 w-10 h-10 rounded-2xl flex items-center justify-center text-xl font-bold">
@@ -31,9 +51,18 @@ const MotivationSetup = () => {
             <div
               key={opt.id}
               className="motivation-option-row flex items-center gap-4 p-4 rounded-xl cursor-pointer"
+              onClick={() => toggleMotivation(opt.id)
+              }
             >
               <opt.icon size={20} className="motivation-icon-accent" />
-              <Circle size={18} className="motivation-text-muted opacity-20" />
+              {habit.motivation?.[opt.id] ? (
+                <CheckCircle2 size={18} className="motivation-icon-accent" />
+              ) : (
+                <Circle
+                  size={18}
+                  className="motivation-text-muted opacity-30"
+                />
+              )}
               <span className="text-sm motivation-text-muted font-medium">
                 {opt.label}
               </span>
@@ -55,10 +84,17 @@ const MotivationSetup = () => {
 
         {/* Footer Navigation */}
         <div className="flex flex-row-reverse items-center gap-4">
-          <button className="motivation-btn-finish flex-1 py-3 rounded-xl font-bold text-sm transition-all">
+          <button
+            className="motivation-btn-finish flex-1 py-3 rounded-xl font-bold text-sm transition-all"
+            onClick={onFinish}
+            disabled={!hasMotivation}
+          >
             Finish: Create Habit
           </button>
-          <button className="motivation-btn-back px-6 py-3 rounded-xl font-bold text-sm transition-all">
+          <button
+            className="motivation-btn-back px-6 py-3 rounded-xl font-bold text-sm transition-all"
+            onClick={onBack}
+          >
             Back: Configure Frequency
           </button>
         </div>
