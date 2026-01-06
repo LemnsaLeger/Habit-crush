@@ -13,7 +13,7 @@ export default function ThemeToggler ({ onThemeChange }) {
   }
     return (
       <>
-        <aside className="flex items-center justify-center p-10">
+        <aside className="flex items-center justify-center p-0">
           <section className="theme-toggle-wrapper flex items-center gap-4 px-5 py-3 shadow-lg">
             {/* Visual Label */}
             <div className="flex items-center gap-3">
