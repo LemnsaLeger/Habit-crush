@@ -1,9 +1,13 @@
 
 
-export default function NewHabit() {
+export default function NewHabit({ active, onNext }) {
     return (
       <>
-        <section className="new-habit border-2 border-teal-600 p-4 rounded-lg bg-[220 16% 14%]  flex flex-col gap-4 relative text-start">
+        <section
+          className={`new-habit ${
+            active ? "ring-2 ring-[hsl(var(--border))]" : ""
+          } p-4 rounded-lg bg-[220 16% 14%]  flex flex-col gap-4 relative text-start`}
+        >
           <div className="count w-5 absolute h-5 top-0 left-0 bg-teal-500 p-5 flex justify-center items-center rounded-xl shadow-2xl shadow-teal-300">
             1
           </div>
@@ -21,8 +25,8 @@ export default function NewHabit() {
             </div>
             <p>Create habits that stick to our giant habit control</p>
           </article>
-          <div className="buttons">
-            <button>
+          <div className="buttons" onClick={onNext}>
+            <button className="section-btn">
               {/* <span>icon</span> */}
               Start habit creation
             </button>
