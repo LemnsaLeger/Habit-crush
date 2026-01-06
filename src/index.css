@@ -1,5 +1,6 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -138,35 +139,39 @@ body {
   min-height: 100vh;
   width: 100%;
   background-color: hsl(var(--background));
+  @apply text-sm font-normal;
+  font-family: "Plus Jakarta", sans-serif;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+button, button:hover {
   cursor: pointer;
-  transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
+
+button.section-btn {
+  cursor: pointer;
+  min-height: 2.5rem;
 }
+
+button:active, input:focus {
+  border: none;
+  outline: none;
+}
+
 /* button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 } */
 
 /* header -> navabar */
-header nav{
-  @apply w-full max-w-[1280px] flex justify-between items-center py-6 mb-5;
+header#header {
+  @apply border-b pb-4;
+  border-color: hsl(var(--border));
+  background: hsl(var(--background-primary));
+}
+
+
+header#header nav{
+  @apply w-full max-w-7xl flex justify-between items-center h-15;
 }
 
 nav h1 {
@@ -183,6 +188,15 @@ nav p {
   background: hsl(var(--muted));
   border: 1px solid hsl(var(--border));
 }
+
+nav ul li a {
+  color: hsl(var(--foreground));
+}
+
+nav ul li a:hover {
+  background: hsl(var(--secondary));
+}
+
 
 /* ThemeToggleStyles.css */
 
@@ -211,7 +225,7 @@ nav p {
 /* The Switch Element */
 .theme-switch-track {
   width: 3.5rem;
-  height: 1.75rem;
+  height: 1.75rem ;
   background-color: hsl(var(--muted));
   border-radius: 9999px;
   cursor: pointer;
@@ -243,24 +257,24 @@ nav p {
 
 /* creation wizard header */
 .creation-wizard-h1 {
-  @apply text-2xl font-medium capitalize mb-1;
+  @apply text-2xl font-medium capitalize mb-1 mt-20;
 }
 
 .creation-wizard-p {
-  @apply text-xl mb-8;
+  @apply text-sm mb-8;
   color: hsl(var(--muted-foreground));
 }
 
 
 /* habit creation first step */
 .new-habit {
-  @apply w-full max-w-250 flex flex-col gap-6;
+  @apply w-full flex flex-col gap-6 justify-center;
   background: hsl(var(--card));
   color: hsl(var(--muted-foreground));
 }
 
 .new-habit h2 {
-  @apply  text-3xl font-bold;
+  @apply  text-2xl font-bold;
   color: hsl(var(--foreground));
 }
 
@@ -305,7 +319,7 @@ nav p {
 
 /* count visble*/ 
 .count {
-  @apply -top-4 -left-4 text-xl font-semibold text-white;
+  @apply text-xl font-semibold text-white -top-4 -left-2;
 }
 
 .new-habit h2 {
@@ -318,6 +332,10 @@ nav p {
 
 /* ///////////////////// */
 /* Habit basics */
+.new-habit { 
+  @apply text-sm;
+ }
+
 .first-card-title.basics {
   @apply h-25 font-normal;
 }
@@ -389,11 +407,11 @@ nav p {
 }
 
 .first-card-title.type {
-  @apply h-auto;
+  @apply h-15;
 }
 
 .first-card-title.type  .article-header {
-  @apply -mt-1;
+  @apply -mt-5;
 }
 
 .first-card-title.type .article-header {
@@ -401,11 +419,15 @@ nav p {
 }
 
 .buttons.type button:nth-child(1) {
-  @apply text-lg w-[70%];
+  @apply text-sm w-[70%];
 }
 
 .buttons.type button:nth-child(2) {
-  @apply text-lg w-[30%];
+  @apply text-sm w-[30%];
+}
+
+.buttons button {
+  min-height: 2.5rem;
 }
 
 
@@ -428,9 +450,9 @@ nav p {
 
 /* Custom box */
 .checkmark {
-  width: 26px;
-  height: 25px;
-  border: 2px solid hsl(var(--muted-foreground)); /* teal */
+  width: 18px;
+  height: 18px;
+  border: 1px solid hsl(var(--muted-foreground)); /* teal */
   border-radius: 50%;
   background-color: hsl(var(--muted));
   display: flex;
@@ -442,8 +464,8 @@ nav p {
 /* Check icon */
 .checkmark::after {
   content: "";
-  width: 10px;
-  height: 10px;
+  width: 6px;
+  height: 6%;
   border: solid white;
   border-radius: 50%;
   /* border-width: 0 2px 2px 0; */
@@ -474,7 +496,7 @@ nav p {
 
 /* Optional label text */
 .label-text {
-  font-size: 14px;
+  @apply text-lg font-medium;
 }
 
 .first-card-title.type .article-header .info {
@@ -482,15 +504,16 @@ nav p {
 }
 
 .first-card-title.type h3{
-  @apply flex gap-3 text-2xl items-center;
+  @apply flex gap-3 text-xl items-center;
 }
 
 .first-card-title.type p{
-  @apply font-normal text-xl mt-2;
+  @apply font-normal text-sm;
   color: hsl(var(--muted-foreground));
 }
 
 .first-card-title.type h3 svg{
+  @apply w-4 h-5;
   color: hsl(var(--accent));
 }
 
@@ -500,8 +523,17 @@ nav p {
 }
 
 .first-card-title.small-rectanagle .logo {
-  @apply text-2xl;
+  @apply text-xl;
   background: none;
+}
+
+.first-card-title.small-rectanagle .logo.last-div, .first-card-title.small-rectanagle p {
+  @apply text-sm font-normal;
+}
+
+.new-habit.type {
+  @apply m-0;
+  margin: 100px auto;
 }
 
 /* /////////////////// */
@@ -705,4 +737,261 @@ nav p {
 
 .dashboard-step-highlight {
   color: hsl(var(--foreground));
+}
+
+/* /////////////////// */
+/* Settings Page */
+.settings-container {
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+.settings-container header button h1 {
+  color: hsl(var(--foreground));
+}
+
+.settings-container header button p {
+  color: hsl(var(--muted-foreground));
+}
+
+.settings-container .content section {
+  background-color: hsl(var(--card));
+}
+
+.settings-container .content section header svg {
+  color: hsl(var(--primary));
+}
+
+.settings-container .content section header div p {
+  color: hsl(var(--muted-foreground));
+}
+
+.settings-container .content section header #professional {
+  color: hsl(var(--muted-foreground));
+}
+
+.settings-container .content section header #modern {
+  color: hsl(var(--muted-foreground));
+}
+
+.settings-container .content section #smooth-transitions {
+  color: hsl(var(--muted-foreground));
+}
+
+.settings-container #button{
+  background: hsl(var(--muted-foreground));
+}
+
+/* back button */
+.settings-container .go-back:hover {
+  color: hsl(var(--foreground));
+}
+
+.settings-container .settings-content {
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+}
+
+.settings-container .settings-content .section-icon{
+  color: hsl(var(--primary));
+}
+
+.settings-content .section-title {
+  line-height: 1.2;
+}
+
+.settings-content .section-description {
+  color: hsl(var(--muted-foreground));
+}
+
+.settings-content .settings-section:last-child {
+  margin-bottom: 0;
+}
+
+.settings-content .settings-section.border-top{
+  border-top: 1px solid hsl(var(--border));
+}
+
+.settings-content .subsection-title{
+  color: hsl(var(--foreground));
+}
+
+.settings-content .toggle-switch {
+  border-radius: 9999px;
+  background: hsl(var(--secondary));
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.settings-content .toggle-switch.active {
+  background: hsl(var(--primary));
+}
+
+.toggle-switch:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.settings-content .toggle-knob {
+  border-radius: 50%;
+  transform: translateX(0.25rem);
+  transition: transform 0.2s;
+}
+
+.toggle-switch.active .toggle-knob {
+  transform: translateX(1.75rem);
+}
+
+/* time */
+.settings-content .time-input {
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--input));
+  color: hsl(var(--foreground));
+  padding: 0.75rem 1rem;
+}
+
+.time-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.time-input:focus {
+  outline: none;
+  border-color: hsl(var(--ring));
+  box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2);
+}
+
+.time-input {
+  pointer-events: none;
+  color: hsl(var(--muted-foreground));
+}
+
+
+/* /////////////////////////////// */
+
+/* Data Management Actions */
+.data-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.action-button.secondary {
+  background: hsl(var(--secondary));
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
+}
+
+.action-button.secondary:hover {
+  background: hsl(var(--secondary) / 0.8);
+  border-color: hsl(var(--border) / 0.6);
+}
+
+.action-button.destructive {
+  background: hsl(var(--destructive));
+  color: hsl(var(--destructive-foreground));
+}
+
+.action-button.destructive:hover {
+  background: hsl(var(--destructive) / 0.9);
+}
+
+.action-button:active {
+  transform: scale(0.98);
+}
+
+/* ////////////////////// */
+/* settings preferences */
+/* Select Dropdown */
+.select-wrapper {
+  position: relative;
+  max-width: 12rem;
+}
+
+.custom-select {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--input));
+  color: hsl(var(--foreground));
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+}
+
+.custom-select:focus {
+  outline: none;
+  border-color: hsl(var(--ring));
+  box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2);
+}
+
+.custom-select:hover {
+  border-color: hsl(var(--border) / 0.8);
+}
+
+.custom-select option {
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+  padding: 0.5rem;
+}
+
+/* /////////////////// */
+/* Account page */
+/* Account Empty State */
+.account-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.account-icon-wrapper {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  background: hsl(var(--primary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.account-icon {
+  color: hsl(var(--primary-foreground));
+}
+
+.account-coming-soon {
+  color: hsl(var(--foreground));
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.account-version {
+  color: hsl(var(--muted-foreground));
+  font-size: 0.875rem;
 }
