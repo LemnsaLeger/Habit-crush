@@ -2,10 +2,17 @@ import { SmilePlus, Palette } from "lucide-react";
 
 import "../index.css";
 
-export default function HabitBasics() {
+export default function HabitBasics({ active, habit, setHabit , onNext, onBack})
+ {
+  const isValid = habit.name.trim() && habit.icon && habit.color;
+
   return (
     <>
-      <section className="new-habit basics border-2 border-teal-600 p-4 rounded-lg bg-[220 16% 14%]  flex flex-col gap-4 relative text-start mt-12">
+      <section
+        className={`new-habit ${
+          active ? "ring-2 ring-[hsl(var(--border))]" : ""
+        } p-4 rounded-lg bg-[220 16% 14%]  flex flex-col gap-4 relative text-start mt-12`}
+      >
         <div className="count w-5 absolute h-5 top-0 left-0 bg-teal-900 p-5 flex justify-center items-center rounded-xl shadow-2xl shadow-teal-300">
           2
         </div>
@@ -19,8 +26,12 @@ export default function HabitBasics() {
             <div className="logo t">T</div>
             <div className="info">
               <h3>Habit Name</h3>
-              {/* <p>Multi-step configuration</p> */}
-              <input type="text" placeholder="e.g., Morning Meditation" />
+              <input
+                type="text"
+                placeholder="e.g., Morning Meditation"
+                onChange={(e) => setHabit({ ...habit, name: e.target.value })}
+                value={habit.name}
+              />
             </div>
           </div>
           {/* <p>Create habits that stick to our giant habit control</p> */}
@@ -34,7 +45,13 @@ export default function HabitBasics() {
             </div>
             <div className="info">
               <h3>Icon</h3>
-              <input type="text" placeholder="Click to choose an icon" />
+              <input
+                type="text"
+                placeholder="Click to choose an icon"
+                onFocus={() => {}}
+                onChange={(e) => setHabit({ ...habit, icon: e.target.value })}
+                value={habit.icon}
+              />
             </div>
           </div>
           {/* <p>Create habits that stick to our giant habit control</p> */}
@@ -48,21 +65,42 @@ export default function HabitBasics() {
             <div className="info">
               <h3>Theme Color</h3>
               <div>
-                <p className="teal-dot active"></p>
-                <p className="purple-dot"></p>
-                <p className="orange-dot"></p>
-                <p className="lemon-green-dot"></p>
+                <p
+                  className={`teal-dot ${
+                    habit.color === "teal" ? "active" : ""
+                  }`}
+                  onClick={() => setHabit({ ...habit, color: "teal" })}
+                ></p>
+                <p
+                  className={`purple-dot ${
+                    habit.color === "purple" ? "active" : ""
+                  }`}
+                  onClick={() => setHabit({ ...habit, color: "purple" })}
+                ></p>
+                <p
+                  className={`orange-dot ${
+                    habit.color === "orange" ? "active" : ""
+                  }`}
+                  onClick={() => setHabit({ ...habit, color: "orange" })}
+                ></p>
+
+                <p
+                  className={`lemon-green-dot ${
+                    habit.color === "lemon-green" ? "active" : ""
+                  }`}
+                  onClick={() => setHabit({ ...habit, color: "lemon-green" })}
+                ></p>
               </div>
             </div>
           </div>
           {/* <p>Create habits that stick to our giant habit control</p> */}
         </article>
         <div className="buttons basics">
-          <button>
+          <button disabled={!isValid} onClick={onNext}>
             {/* <span>icon</span> */}
             Next: Choose Type
           </button>
-          <button>Back To Start</button>
+          <button onClick={onBack}>Back To Start</button>
         </div>
       </section>
     </>
