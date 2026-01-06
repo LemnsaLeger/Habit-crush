@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
 import { Target } from 'lucide-react';
 
-const HabitTargetInput = () => {
-  const [targetValue, setTargetValue] = useState(30);
+const HabitTargetInput = ({ active, habit, setHabit, onNext, onBack }) => {
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4 h-100 w-full">
+    <div
+      className={`${
+        active ? "ring-2 ring-[hsl(var(--border))]" : ""
+      } flex items-center justify-center min-h-screen p-4 h-100 w-full`}
+    >
       {/* Container */}
       <div className="relative w-400 h-auto p-8 rounded-(--radius) border border-[hsl(var(--border))] bg-[hsl(var(--background))] text-[hsl(var(--foreground))]">
         {/* Step Indicator */}
@@ -38,8 +40,8 @@ const HabitTargetInput = () => {
             <div className="flex items-center gap-3">
               <input
                 type="number"
-                value={targetValue}
-                onChange={(e) => setTargetValue(e.target.value)}
+                value={habit.target}
+                onChange={(e) => setHabit({ ...habit, target: e.target.value })}
                 className="w-20 bg-[hsl(var(--input))] border border-[hsl(var(--border))] rounded-md px-2 py-1 text-center focus:outline-none focus:ring-1 focus:ring-[hsl(var(--primary))]"
               />
               <span className="text-[hsl(var(--muted-foreground))] text-sm">
@@ -67,11 +69,14 @@ const HabitTargetInput = () => {
               background: "var(--gradient-primary)",
               boxShadow: "0 0 15px hsla(var(--primary-glow) / 0.25)",
             }}
+            onClick={onNext}
           >
             Next: Configure Frequency
           </button>
 
-          <button className="px-6 py-3 rounded-(--radius) bg-[hsl(var(--secondary))] border border-[hsl(var(--border))] font-semibold text-sm hover:bg-[hsl(var(--muted))] transition-colors">
+          <button className="px-6 py-3 rounded-(--radius) bg-[hsl(var(--secondary))] border border-[hsl(var(--border))] font-semibold text-sm hover:bg-[hsl(var(--muted))] transition-colors"
+            onClick={onBack}
+          >
             Back
           </button>
         </div>
