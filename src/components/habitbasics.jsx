@@ -13,7 +13,14 @@ export default function HabitBasics({ active, habit, setHabit , onNext, onBack})
           active ? "ring-2 ring-[hsl(var(--border))]" : ""
         } p-4 rounded-lg bg-[220 16% 14%]  flex flex-col gap-4 relative text-start mt-12`}
       >
-        <div className="count w-5 absolute h-5 top-0 left-0 bg-teal-900 p-5 flex justify-center items-center rounded-xl shadow-2xl shadow-teal-300">
+        <div
+          className={`count
+                      ${
+                        active
+                          ? "bg-[hsl(var(--accent))]  shadow-teal-300"
+                          : "bg-[hsl(var(--muted))]"
+                      } w-5 absolute h-5 top-0 left-0 p-5 flex justify-center items-center rounded-xl shadow-2xl `}
+        >
           2
         </div>
         <h2 className="mt-10">Habit Basics</h2>
@@ -98,7 +105,7 @@ export default function HabitBasics({ active, habit, setHabit , onNext, onBack})
         <div className="buttons basics">
           <button disabled={!isValid} onClick={onNext}>
             {/* <span>icon</span> */}
-            Next: Choose Type
+            Choose Type
           </button>
           <button onClick={onBack}>Back To Start</button>
         </div>
