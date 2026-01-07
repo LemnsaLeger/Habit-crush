@@ -29,7 +29,7 @@ const initialHabit = {
 // Overlay to show when habit is created
 const HabitCreatedOverlay = ({ onClose }) => (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-    <div className="bg-[hsl(var(--primary-foreground))] p-8 rounded-2xl text-center relative">
+    <div className="bg-[hsl(var(--card))] p-8 rounded-2xl text-center relative">
         <button className="absolute top-3 right-3" onClick={onClose}>
         ✕
         </button>
@@ -73,7 +73,7 @@ export default function CreationWizard() {
 
       // Show success message
       setShowSuccess(true);
-      setTimeout(() => setShowSuccess(false), 1000);
+      setTimeout(() => setShowSuccess(false), 2000);
 
       setHabit(initialHabit);
       setCurrentStep(1);
@@ -85,47 +85,49 @@ export default function CreationWizard() {
         <h1 className="creation-wizard-h1">creation Wizard</h1>
         <p className="creation-wizard-p">Step by habit construction</p>
 
-        <NewHabit active={currentStep === 1} onNext={() => completeStep(1)} />
+        <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
+          <NewHabit active={currentStep === 1} onNext={() => completeStep(1)} />
 
-        <HabitBasics
-          active={currentStep === 2}
-          habit={habit}
-          setHabit={setHabit}
-          onNext={() => completeStep(2)}
-          onBack={() => setCurrentStep(1)}
-        />
+          <HabitBasics
+            active={currentStep === 2}
+            habit={habit}
+            setHabit={setHabit}
+            onNext={() => completeStep(2)}
+            onBack={() => setCurrentStep(1)}
+          />
 
-        <HabitTypeSelection
-          active={currentStep === 3}
-          habit={habit}
-          setHabit={setHabit}
-          onNext={() => completeStep(3)}
-          onBack={() => setCurrentStep(2)}
-        />
+          <HabitTypeSelection
+            active={currentStep === 3}
+            habit={habit}
+            setHabit={setHabit}
+            onNext={() => completeStep(3)}
+            onBack={() => setCurrentStep(2)}
+          />
 
-        <HabitTargetInput
-          active={currentStep === 4}
-          habit={habit}
-          setHabit={setHabit}
-          onNext={() => completeStep(4)}
-          onBack={() => setCurrentStep(3)}
-        />
+          <HabitTargetInput
+            active={currentStep === 4}
+            habit={habit}
+            setHabit={setHabit}
+            onNext={() => completeStep(4)}
+            onBack={() => setCurrentStep(3)}
+          />
 
-        <HabitFrequencyConfigurator
-          active={currentStep === 5}
-          habit={habit}
-          setHabit={setHabit}
-          onNext={() => completeStep(5)}
-          onBack={() => setCurrentStep(4)}
-        />
+          <HabitFrequencyConfigurator
+            active={currentStep === 5}
+            habit={habit}
+            setHabit={setHabit}
+            onNext={() => completeStep(5)}
+            onBack={() => setCurrentStep(4)}
+          />
 
-        <MotivationSetup
-          active={currentStep === 6}
-          habit={habit}
-          setHabit={setHabit}
-          onFinish={finalizeHabit}
-          onBack={() => setCurrentStep(5)}
-        />
+          <MotivationSetup
+            active={currentStep === 6}
+            habit={habit}
+            setHabit={setHabit}
+            onFinish={finalizeHabit}
+            onBack={() => setCurrentStep(5)}
+          />
+        </main>
 
         {showSuccess && (
           <HabitCreatedOverlay onClose={() => setShowSuccess(false)} />
