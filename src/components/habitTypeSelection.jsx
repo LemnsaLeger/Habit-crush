@@ -13,7 +13,13 @@ export default function HabitTypeSelection({ active, habit, setHabit, onNext, on
           active ? "ring-2 ring-[hsl(var(--border))]" : ""
         } type min-h-auto max-h-screen p-4 w-full relative`}
       >
-        <div className="count absolute w-5  h-5 bg-teal-900 p-5 flex justify-center items-center rounded-xl shadow-2xl shadow-teal-300">
+        <div
+          className={`count                       ${
+            active
+              ? "bg-[hsl(var(--accent))]  shadow-teal-300"
+              : "bg-[hsl(var(--muted))]"
+          }  absolute w-10  h-10 flex justify-center items-center rounded-xl shadow-2xl `}
+        >
           3
         </div>
         <h2 className="mt-10">Habit Type Selection</h2>
@@ -93,7 +99,7 @@ export default function HabitTypeSelection({ active, habit, setHabit, onNext, on
           </div>
         </article>
         <div className="buttons type">
-          <button onClick={onNext}>Next: Set Target</button>
+          <button onClick={onNext}>Set Target</button>
           <button onClick={onBack}>Back To Basics</button>
         </div>
       </section>
