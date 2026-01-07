@@ -24,12 +24,18 @@ const HabitFrequencyConfigurator = ({ habit, active, setHabit, onNext, onBack })
   return (
     <div
       className={`${
-        active ? "ring-2 ring-[hsl(var(--border))]" : ""
-      } flex items-center justify-center min-h-screen h-full p-4 -mt-20`}
+        active ? "" : ""
+      } flex items-center justify-center min-h-screen h-full p-4 mt-20`}
     >
       <div className="habit-config-container relative w-300 max-w-400 p-8">
         {/* Step Badge */}
-        <div className="step-badge absolute -top-4 -left-4 w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl">
+        <div
+          className={` ${
+            active
+              ? "bg-[hsl(var(--accent))] shadow-teal-300"
+              : "bg-[hsl(var(--muted))]"
+          } step-badge absolute -top-4 -left-4 w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl `}
+        >
           5
         </div>
 
@@ -38,7 +44,7 @@ const HabitFrequencyConfigurator = ({ habit, active, setHabit, onNext, onBack })
           <h1 className="text-2xl font-bold mb-2">
             Habit Frequency Configurator
           </h1>
-          <p className="habit-text-muted text-xl leading-relaxed">
+          <p className="habit-text-muted text-sm leading-relaxed">
             Define how often you want to perform this habit. Choose from various
             scheduling options to match your lifestyle.
           </p>
@@ -49,9 +55,7 @@ const HabitFrequencyConfigurator = ({ habit, active, setHabit, onNext, onBack })
           {options.map((option) => (
             <button
               key={option.id}
-              onClick={() => 
-                setHabit({...habit, frequency: option.id })
-              }
+              onClick={() => setHabit({ ...habit, frequency: option.id })}
               className={`frequency-option flex items-center gap-4 p-4 rounded-xl text-left ${
                 selected === option.id ? "active" : ""
               }`}
@@ -72,7 +76,7 @@ const HabitFrequencyConfigurator = ({ habit, active, setHabit, onNext, onBack })
                   <Circle className="habit-text-muted opacity-30" size={18} />
                 )}
                 <span
-                  className={`text-xl font-medium ${
+                  className={`text-sm font-normal ${
                     selected === option.id ? "text-white" : "habit-text-muted"
                   }`}
                 >
@@ -89,20 +93,26 @@ const HabitFrequencyConfigurator = ({ habit, active, setHabit, onNext, onBack })
             Visual Summary
           </span>
           <p className="text-xl font-semibold flex items-center gap-2">
-            {options.find((option) => option.id === selected)?.label || "Not set"}
+            {options.find((option) => option.id === selected)?.label ||
+              "Not set"}
             <span className="w-1.5 h-1.5 rounded-full bg-white opacity-50"></span>
           </p>
         </div>
 
         {/* Navigation */}
         <div className="flex flex-row-reverse items-center justify-between gap-4">
-          <button className="btn-next flex-1 py-3 px-6 rounded-xl font-bold text-sm transition-all active:scale-95" onClick={onNext}
-          disabled={!isValid}
+          <button
+            className="btn-next flex-1 py-3 px-6 rounded-xl font-bold text-sm transition-all active:scale-95"
+            onClick={onNext}
+            disabled={!isValid}
           >
-            Next: Setup Motivation
+            Setup Motivation
           </button>
-          <button className="btn-back px-8 py-3 rounded-xl font-bold text-sm transition-colors" onClick={onBack}>
-            Back: Set Target
+          <button
+            className="btn-back px-8 py-3 rounded-xl font-bold text-sm transition-colors"
+            onClick={onBack}
+          >
+            Select target
           </button>
         </div>
 
