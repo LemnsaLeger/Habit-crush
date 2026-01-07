@@ -5,22 +5,28 @@ const HabitTargetInput = ({ active, habit, setHabit, onNext, onBack }) => {
   return (
     <div
       className={`${
-        active ? "ring-2 ring-[hsl(var(--border))]" : ""
+        active ? "" : ""
       } flex items-center justify-center min-h-screen p-4 h-100 w-full`}
     >
       {/* Container */}
       <div className="relative w-400 h-auto p-8 rounded-(--radius) border border-[hsl(var(--border))] bg-[hsl(var(--background))] text-[hsl(var(--foreground))]">
         {/* Step Indicator */}
-        <div className="absolute -top-3 -left-3 w-10 h-10 rounded-3xl border border-[hsl(var(--border))] bg-[hsl(var(--muted))] flex items-center justify-center text-xs font-bold text-[hsl(var(--muted-foreground))]">
+        <div
+          className={` ${
+            active
+              ? "bg-[hsl(var(--accent))] shadow-teal-300"
+              : "bg-[hsl(var(--muted))]"
+          } absolute -top-3 -left-3 w-10 h-10 rounded-xl border border-[hsl(var(--border))] flex items-center justify-center text-xl font-bold text-[hsl(var(--foreground))] `}
+        >
           4
         </div>
 
         {/* Header */}
         <header className="mb-8">
-          <h2 className="text-2xl font-bold tracking-tight mb-2">
+          <h2 className="text-2xl font-normal tracking-tight mb-2">
             Habit Target Input
           </h2>
-          <p className="text-[hsl(var(--muted-foreground))] text-xl leading-relaxed opacity-80">
+          <p className="text-[hsl(var(--muted-foreground))] text-sm leading-relaxed opacity-80">
             Set your daily or session target. This adapts based on the habit
             type you selected in the previous step.
           </p>
@@ -52,7 +58,7 @@ const HabitTargetInput = ({ active, habit, setHabit, onNext, onBack }) => {
         </div>
 
         {/* Dynamic Alert */}
-        <div className="p-4 mb-8 rounded-(--radius) bg-[hsl(var(--primary)/0.05)] border border-[hsl(var(--primary)/0.1)] text-xl">
+        <div className="p-4 mb-8 rounded-(--radius) bg-[hsl(var(--primary)/0.05)] border border-[hsl(var(--primary)/0.1)] text-sm">
           <p>
             <span className="text-[hsl(var(--accent))] font-semibold">
               Dynamic Adjustment:
@@ -71,13 +77,14 @@ const HabitTargetInput = ({ active, habit, setHabit, onNext, onBack }) => {
             }}
             onClick={onNext}
           >
-            Next: Configure Frequency
+            Configure Frequency
           </button>
 
-          <button className="px-6 py-3 rounded-(--radius) bg-[hsl(var(--secondary))] border border-[hsl(var(--border))] font-semibold text-sm hover:bg-[hsl(var(--muted))] transition-colors"
+          <button
+            className="px-6 py-3 rounded-(--radius) bg-[hsl(var(--secondary))] border border-[hsl(var(--border))] font-semibold text-sm hover:bg-[hsl(var(--muted))] transition-colors"
             onClick={onBack}
           >
-            Back
+            Set type
           </button>
         </div>
       </div>
