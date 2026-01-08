@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import ThemeToggler from "./themeToggler";
 import {Home, Plus, Settings } from "lucide-react";
 
-export default function Header() {
+export default function Header({ onThemeChange }) {
     return (
       <>
         <header id="header">
@@ -43,7 +43,7 @@ export default function Header() {
                 </Link>
               </li>
             </ul>
-            <ThemeToggler />
+            <ThemeToggler onThemeChange={onThemeChange} />
           </nav>
         </header>
       </>
