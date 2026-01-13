@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import ThemeToggler from "./themeToggler";
-import {Home, Plus, Settings } from "lucide-react";
+import {Home, Plus, Settings, CalendarCheck } from "lucide-react";
 
 export default function Header({ onThemeChange }) {
     return (
@@ -14,6 +14,16 @@ export default function Header({ onThemeChange }) {
 
             {/* navigation links */}
             <ul className="flex items-center gap-2" role="list">
+              <li>
+                <Link
+                  to="/today"
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors"
+                >
+                  <CalendarCheck size={18} aria-hidden="true" />
+                  <span className="text-sm font-medium">Today</span>
+                </Link>
+              </li>
+
               <li>
                 <Link
                   to="/"
