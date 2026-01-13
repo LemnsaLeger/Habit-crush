@@ -3,7 +3,7 @@
 
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Plus Jakarta Sans", sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -140,7 +140,7 @@ body {
   width: 100%;
   background-color: hsl(var(--background));
   @apply text-sm font-normal;
-  font-family: "Plus Jakarta", sans-serif;
+  font-family: "Plus Jakarta Sans", sans-serif;
 }
 
 button, button:hover {
@@ -190,11 +190,12 @@ nav p {
 }
 
 nav ul li a {
-  color: hsl(var(--foreground));
+  color: hsl(var(--muted-foreground));
 }
 
 nav ul li a:hover {
   background: hsl(var(--secondary));
+  color: white;
 }
 
 
@@ -342,7 +343,6 @@ nav ul li a:hover {
 
 .first-card-title.basics .logo.t {
   @apply text-2xl w-10 h-10 flex justify-center items-center;
-  font-family: "Playfair Display", serif;
 }
 
 .first-card-title.basics .article-header {
@@ -354,15 +354,19 @@ nav ul li a:hover {
 }
 
 .buttons.basics {
-  @apply h-12;
+  @apply h-12 flex justify-between;
 }
 
 .buttons.basics button:nth-child(1) {
-  @apply text-lg w-[70%];
+  @apply text-[18px] w-full;
 }
 
 .buttons.basics button:nth-child(2) {
-  @apply text-lg w-[30%];
+  @apply text-[16px] w-full;
+}
+
+.first-card-title.basics .article-header .info {
+  @apply mt-2;
 }
 
 .first-card-title.basics .article-header .info div {
@@ -419,14 +423,15 @@ nav ul li a:hover {
 }
 
 .buttons.type button:nth-child(1) {
-  @apply text-sm w-[70%];
+  @apply text-sm w-full;
 }
 
 .buttons.type button:nth-child(2) {
-  @apply text-sm w-[30%];
+  @apply text-sm w-full;
 }
 
 .buttons button {
+  @apply font-medium;
   min-height: 2.5rem;
 }
 
@@ -475,8 +480,8 @@ nav ul li a:hover {
 
 /* Checked state */
 .custom-checkbox input:checked + .checkmark {
-  background-color: #0f766e;
-  border-color: #0f766e;
+  background-color: hsl(var(--accent) / 0.3);
+  border-color: hsl(var(--border));
 }
 
 .custom-checkbox input:checked + .checkmark::after {
@@ -485,26 +490,26 @@ nav ul li a:hover {
 
 /* Hover */
 .custom-checkbox:hover .checkmark {
-  border-color: #14b8a6;
+  border-color: hsl(var(--border));
 }
 
 /* Focus (keyboard accessibility) */
 .custom-checkbox input:focus + .checkmark {
-  outline: 2px solid #5eead4;
+  outline: 2px solid hsl(var(--border));
   outline-offset: 2px;
 }
 
 /* Optional label text */
 .label-text {
-  @apply text-lg font-medium;
+  @apply text-lg font-normal;
 }
 
 .first-card-title.type .article-header .info {
-  @apply ml-2;
+  @apply ml-2 -mt-1;
 }
 
 .first-card-title.type h3{
-  @apply flex gap-3 text-xl items-center;
+  @apply flex gap-3 text-[1em] items-center font-medium;
 }
 
 .first-card-title.type p{
@@ -573,12 +578,14 @@ nav ul li a:hover {
 
 /* Buttons */
 .btn-next {
-  background: var(--gradient-primary);
-  box-shadow: 0 4px 20px hsla(var(--primary-glow) / 0.3);
+  @apply w-full;
+  background: hsl(var(--primary));
+  /* box-shadow: 0 4px 20px hsla(var(--primary-glow) / 0.3); */
   color: white;
 }
 
 .btn-back {
+  @apply w-full;
   background-color: hsl(var(--secondary));
   border: 1px solid hsl(var(--border));
   color: white;
@@ -588,7 +595,7 @@ nav ul li a:hover {
 .step-badge {
   background-color: hsl(var(--muted));
   border: 1px solid hsl(var(--border));
-  color: hsl(var(--muted-foreground));
+  color: hsl(var(--foreground));
 }
 
 .progress-pill-container {
@@ -602,6 +609,7 @@ nav ul li a:hover {
 
 
 /* //////////////////// */
+/* motivation */
 /* Main Container */
 .motivation-container {
   background-color: hsl(var(--background));
@@ -614,7 +622,7 @@ nav ul li a:hover {
 .motivation-badge {
   background-color: hsl(var(--muted));
   border: 1px solid hsl(var(--border));
-  color: hsl(var(--muted-foreground));
+  color: hsl(var(--foreground));
 }
 
 /* Option Rows (Obstacles, Emergency Plans, etc.) */
@@ -643,8 +651,9 @@ nav ul li a:hover {
 
 /* Finish Button (Large Primary) */
 .motivation-btn-finish {
+  @apply w-full;
   background: var(--gradient-primary);
-  box-shadow: 0 4px 20px hsla(var(--primary-glow) / 0.35);
+  /* box-shadow: 0 4px 20px hsla(var(--primary-glow) / 0.35); */
   color: white;
 }
 
