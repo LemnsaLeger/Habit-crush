@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 
 
@@ -37,13 +37,15 @@ const HabitCreatedOverlay = ({ onClose }) => (
         <div className="text-5xl mb-4">🌱</div>
         <h2 className="text-2xl font-bold">Habit Created</h2>
         <p className="text-sm text-gray-400 mt-2">
-        You’ve just planted a habit that can grow daily.
+        You've just planted a habit that can grow daily.
         </p>
     </div>
     </div>
 );
 
 export default function CreationWizard() {
+
+  const stepRefs = useRef([]);
 
     const [habit, setHabit] = useState(() => {
         const saved = localStorage.getItem("draft-habit");
@@ -52,6 +54,17 @@ export default function CreationWizard() {
 
     const [currentStep, setCurrentStep] = useState(1);
     const [showSuccess, setShowSuccess] = useState(false);
+
+    // scroll the active component to view
+    useEffect(() => {
+      const el = stepRefs.current[currentStep - 1];
+      if(el) {
+        el.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        })
+      }
+    }, [currentStep]);
 
     // Save habit to localStorage whenever it changes
     useEffect(() => {
@@ -64,20 +77,44 @@ export default function CreationWizard() {
     };
 
     // Function to finalize the habit creation
-    const finalizeHabit = () => {
-      const habits = JSON.parse(localStorage.getItem("habits")) || [];
-      const completed = { ...habit, createdAt: Date.now() };
+const ALL_DAYS = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 
-      localStorage.setItem("habits", JSON.stringify([...habits, completed]));
-      localStorage.removeItem("draft-habit");
+const finalizeHabit = () => {
+  const habits = JSON.parse(localStorage.getItem("habits")) || [];
 
-      // Show success message
-      setShowSuccess(true);
-      setTimeout(() => setShowSuccess(false), 2000);
+const normalizedFrequency =
+  habit.frequency === "daily"
+    ? ALL_DAYS
+    : Array.isArray(habit.frequency) && habit.frequency.length > 0
+    ? habit.frequency
+    : ALL_DAYS;
 
-      setHabit(initialHabit);
-      setCurrentStep(1);
-    };
+  const completed = {
+    ...habit,
+    id: crypto.randomUUID(),
+    frequency: normalizedFrequency,
+    createdAt: Date.now(),
+  };
+
+  localStorage.setItem("habits", JSON.stringify([...habits, completed]));
+  localStorage.removeItem("draft-habit");
+
+  setShowSuccess(true);
+  setTimeout(() => setShowSuccess(false), 2000);
+
+  setHabit(initialHabit);
+  setCurrentStep(1);
+};
+
+
 
 
     return (
@@ -86,47 +123,62 @@ export default function CreationWizard() {
         <p className="creation-wizard-p">Step by habit construction</p>
 
         <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
-          <NewHabit active={currentStep === 1} onNext={() => completeStep(1)} />
+          <section ref={(el) => (stepRefs.current[0] = el)}>
+            <NewHabit
+              active={currentStep === 1}
+              onNext={() => completeStep(1)}
+            />
+          </section>
 
-          <HabitBasics
-            active={currentStep === 2}
-            habit={habit}
-            setHabit={setHabit}
-            onNext={() => completeStep(2)}
-            onBack={() => setCurrentStep(1)}
-          />
+          <section ref={(el) => (stepRefs.current[1] = el)}>
+            <HabitBasics
+              active={currentStep === 2}
+              habit={habit}
+              setHabit={setHabit}
+              onNext={() => completeStep(2)}
+              onBack={() => setCurrentStep(1)}
+            />
+          </section>
 
-          <HabitTypeSelection
-            active={currentStep === 3}
-            habit={habit}
-            setHabit={setHabit}
-            onNext={() => completeStep(3)}
-            onBack={() => setCurrentStep(2)}
-          />
+          <section ref={(el) => (stepRefs.current[2] = el)}>
+            <HabitTypeSelection
+              active={currentStep === 3}
+              habit={habit}
+              setHabit={setHabit}
+              onNext={() => completeStep(3)}
+              onBack={() => setCurrentStep(2)}
+            />
+          </section>
 
-          <HabitTargetInput
-            active={currentStep === 4}
-            habit={habit}
-            setHabit={setHabit}
-            onNext={() => completeStep(4)}
-            onBack={() => setCurrentStep(3)}
-          />
+          <section ref={(el) => (stepRefs.current[3] = el)}>
+            <HabitTargetInput
+              active={currentStep === 4}
+              habit={habit}
+              setHabit={setHabit}
+              onNext={() => completeStep(4)}
+              onBack={() => setCurrentStep(3)}
+            />
+          </section>
 
-          <HabitFrequencyConfigurator
-            active={currentStep === 5}
-            habit={habit}
-            setHabit={setHabit}
-            onNext={() => completeStep(5)}
-            onBack={() => setCurrentStep(4)}
-          />
+          <section ref={(el) => (stepRefs.current[4] = el)}>
+            <HabitFrequencyConfigurator
+              active={currentStep === 5}
+              habit={habit}
+              setHabit={setHabit}
+              onNext={() => completeStep(5)}
+              onBack={() => setCurrentStep(4)}
+            />
+          </section>
 
-          <MotivationSetup
-            active={currentStep === 6}
-            habit={habit}
-            setHabit={setHabit}
-            onFinish={finalizeHabit}
-            onBack={() => setCurrentStep(5)}
-          />
+          <section ref={(el) => (stepRefs.current[5] = el)}>
+            <MotivationSetup
+              active={currentStep === 6}
+              habit={habit}
+              setHabit={setHabit}
+              onFinish={finalizeHabit}
+              onBack={() => setCurrentStep(5)}
+            />
+          </section>
         </main>
 
         {showSuccess && (
