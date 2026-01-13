@@ -1,4 +1,4 @@
-
+import "../index.css";
 import { Brain, Shield, Sparkles, Bell, Circle, CheckCircle2 } from "lucide-react";
 const MotivationSetup = ({ habit, active, setHabit, onFinish, onBack }) => {
 
@@ -25,13 +25,15 @@ const MotivationSetup = ({ habit, active, setHabit, onFinish, onBack }) => {
 
   return (
     <div
-      className={`${
-        active ? "ring-2 ring-[hsl(var(--border))]" : ""
-      } flex items-center justify-center p-6 min-h-screen w-full`}
+      className={` flex items-center justify-center p-6 min-h-screen w-full mt-35`}
     >
       <div className="motivation-container relative w-300 max-w-400 p-8 md:p-10">
         {/* Step Badge */}
-        <div className="motivation-badge absolute -top-3 -left-3 w-10 h-10 rounded-2xl flex items-center justify-center text-xl font-bold">
+        <div
+          className={` ${
+            active ? "bg-[hsl(var(--accent))]" : "text-[hsl(var(--foreground))]"
+          } motivation-badge absolute -top-3 -left-3 w-10 h-10 rounded-2xl flex items-center justify-center text-xl font-bold`}
+        >
           6
         </div>
 
@@ -51,8 +53,7 @@ const MotivationSetup = ({ habit, active, setHabit, onFinish, onBack }) => {
             <div
               key={opt.id}
               className="motivation-option-row flex items-center gap-4 p-4 rounded-xl cursor-pointer"
-              onClick={() => toggleMotivation(opt.id)
-              }
+              onClick={() => toggleMotivation(opt.id)}
             >
               <opt.icon size={20} className="motivation-icon-accent" />
               {habit.motivation?.[opt.id] ? (
@@ -89,13 +90,13 @@ const MotivationSetup = ({ habit, active, setHabit, onFinish, onBack }) => {
             onClick={onFinish}
             disabled={!hasMotivation}
           >
-            Finish: Create Habit
+            Create Habit
           </button>
           <button
             className="motivation-btn-back px-6 py-3 rounded-xl font-bold text-sm transition-all"
             onClick={onBack}
           >
-            Back: Configure Frequency
+            Configure Frequency
           </button>
         </div>
       </div>
