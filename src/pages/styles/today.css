@@ -1,0 +1,458 @@
+/* Today Container */
+.today-container {
+  min-height: 100vh;
+  background: hsl(var(--background));
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header Section */
+.today-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.greeting-icon-wrapper {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 1rem;
+  background: hsl(var(--primary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: hsl(var(--primary-foreground));
+  flex-shrink: 0;
+}
+
+.greeting-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  line-height: 1.2;
+  margin-bottom: 0.25rem;
+}
+
+.greeting-subtitle {
+  font-size: 1rem;
+  color: hsl(var(--muted-foreground));
+  font-weight: 500;
+}
+
+/* Day Info */
+.day-info {
+  margin-bottom: 2rem;
+}
+
+.day-text {
+  font-size: 1.125rem;
+  color: hsl(var(--foreground));
+  line-height: 1.6;
+}
+
+.day-highlight {
+  color: hsl(var(--primary));
+  font-weight: 600;
+}
+
+.habits-highlight {
+  color: hsl(var(--primary));
+  font-weight: 600;
+}
+
+/* Progress Card */
+.progress-card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.progress-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.progress-label {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.progress-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  line-height: 1.2;
+}
+
+.progress-percentage {
+  font-size: 2rem;
+  font-weight: 700;
+  color: hsl(var(--primary));
+  line-height: 1;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 0.75rem;
+  background: hsl(var(--secondary));
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: hsl(var(--primary));
+  border-radius: 9999px;
+  transition: width 0.5s ease;
+}
+
+/* Daily Tip Card */
+.daily-tip-card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 1rem;
+  padding: 1.75rem;
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  margin-bottom: 3rem;
+}
+
+.tip-icon-wrapper {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.75rem;
+  background: hsl(var(--primary) / 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: hsl(var(--primary));
+  flex-shrink: 0;
+}
+
+.tip-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: hsl(var(--primary));
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.tip-content {
+  font-size: 0.9375rem;
+  color: hsl(var(--foreground));
+  line-height: 1.6;
+}
+
+/* Today's Habits Section */
+.todays-habits-section {
+  margin-bottom: 2rem;
+}
+
+.section-title-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  margin-bottom: 1.5rem;
+}
+
+.section-title-with-icon svg {
+  color: hsl(var(--primary));
+}
+
+/* Habits List */
+.habits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Habit Tracker Card */
+.habit-tracker-card {
+  background: hsl(var(--card));
+  /* border: 1px solid hsl(var(--border)); */
+  border: 1px solid hsl(var(--muted));
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.2s;
+}
+
+.habit-tracker-card:hover {
+  border-color: hsl(var(--primary));
+}
+
+.habit-tracker-card.completed {
+  border-color: hsl(var(--primary));
+  background: hsl(var(--primary) / 0.03);
+}
+
+.habit-tracker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.habit-tracker-title-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.habit-tracker-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  background: hsl(var(--primary) / 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.habit-tracker-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  line-height: 1.2;
+  margin-bottom: 0.25rem;
+}
+
+.habit-tracker-type {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.completion-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  background: hsl(var(--primary) / 0.15);
+  color: hsl(var(--primary));
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+/* Habit Controls (Time) */
+.habit-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.timer-display {
+  font-size: 2rem;
+  font-weight: 700;
+  color: hsl(var(--primary));
+  font-variant-numeric: tabular-nums;
+}
+
+.start-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.5rem;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.start-button:hover {
+  background: hsl(var(--primary) / 0.9);
+}
+
+.target-text {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  margin-left: auto;
+}
+
+/* Quantity Controls */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.quantity-button {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  background: hsl(var(--secondary));
+  border: 1px solid hsl(var(--border));
+  color: hsl(var(--foreground));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.quantity-button:hover {
+  background: hsl(var(--secondary) / 0.8);
+  border-color: hsl(var(--primary));
+}
+
+.quantity-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: hsl(var(--primary));
+  min-width: 3rem;
+  text-align: center;
+}
+
+.quantity-target {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+}
+
+/* Binary Habit Progress */
+.habit-progress-bar-full {
+  width: 100%;
+  height: 0.5rem;
+  background: hsl(var(--secondary));
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.habit-progress-fill-full {
+  height: 100%;
+  width: 100%;
+  background: hsl(var(--primary));
+  border-radius: 9999px;
+}
+
+.completion-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: hsl(var(--primary));
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+/* Action Buttons */
+.today-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.875rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.action-btn.secondary {
+  background: hsl(var(--secondary));
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
+}
+
+.action-btn.secondary:hover {
+  background: hsl(var(--secondary) / 0.8);
+}
+
+.action-btn.primary {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+.action-btn.primary:hover {
+  background: hsl(var(--primary) / 0.9);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .today-container {
+    padding: 2rem 1rem;
+  }
+
+  .today-header {
+    gap: 1rem;
+  }
+
+  .greeting-icon-wrapper {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  .greeting-title {
+    font-size: 1.75rem;
+  }
+
+  .greeting-subtitle {
+    font-size: 0.875rem;
+  }
+
+  .day-text {
+    font-size: 1rem;
+  }
+
+  .progress-card {
+    padding: 1.5rem;
+  }
+
+  .progress-title {
+    font-size: 1.5rem;
+  }
+
+  .progress-percentage {
+    font-size: 1.75rem;
+  }
+
+  .daily-tip-card {
+    padding: 1.5rem;
+    gap: 1rem;
+  }
+
+  .tip-icon-wrapper {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .habit-controls {
+    flex-wrap: wrap;
+  }
+
+  .timer-display {
+    font-size: 1.5rem;
+  }
+
+  .today-actions {
+    flex-direction: column;
+  }
+
+  .action-btn {
+    justify-content: center;
+  }
+}
