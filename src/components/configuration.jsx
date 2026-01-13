@@ -23,9 +23,7 @@ const HabitFrequencyConfigurator = ({ habit, active, setHabit, onNext, onBack })
 
   return (
     <div
-      className={`${
-        active ? "" : ""
-      } flex items-center justify-center min-h-screen h-full p-4 mt-20`}
+      className={` flex items-center justify-center min-h-screen h-full p-4 mt-20`}
     >
       <div className="habit-config-container relative w-300 max-w-400 p-8">
         {/* Step Badge */}
@@ -33,7 +31,7 @@ const HabitFrequencyConfigurator = ({ habit, active, setHabit, onNext, onBack })
           className={` ${
             active
               ? "bg-[hsl(var(--accent))] shadow-teal-300"
-              : "bg-[hsl(var(--muted))]"
+              : "bg-[hsl(var(--muted))] text-[hsl(var(--foreground))]"
           } step-badge absolute -top-4 -left-4 w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl `}
         >
           5
