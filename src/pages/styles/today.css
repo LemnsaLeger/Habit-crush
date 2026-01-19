@@ -8,13 +8,6 @@
 }
 
 /* Header Section */
-.today-header {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  margin-bottom: 2rem;
-}
-
 .greeting-icon-wrapper {
   width: 4rem;
   height: 4rem;
@@ -42,10 +35,6 @@
 }
 
 /* Day Info */
-.day-info {
-  margin-bottom: 2rem;
-}
-
 .day-text {
   font-size: 1.125rem;
   color: hsl(var(--foreground));
@@ -68,13 +57,6 @@
   border: 1px solid hsl(var(--border));
   border-radius: 1rem;
   padding: 2rem;
-  margin-bottom: 1.5rem;
-}
-
-.progress-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
   margin-bottom: 1.5rem;
 }
 
@@ -111,7 +93,7 @@
   height: 100%;
   background: hsl(var(--primary));
   border-radius: 9999px;
-  transition: width 0.5s ease;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Daily Tip Card */
@@ -152,62 +134,23 @@
   line-height: 1.6;
 }
 
-/* Today's Habits Section */
-.todays-habits-section {
-  margin-bottom: 2rem;
-}
-
-.section-title-with-icon {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: hsl(var(--foreground));
-  margin-bottom: 1.5rem;
-}
-
+/* Section Title */
 .section-title-with-icon svg {
   color: hsl(var(--primary));
-}
-
-/* Habits List */
-.habits-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
 }
 
 /* Habit Tracker Card */
 .habit-tracker-card {
   background: hsl(var(--card));
-  /* border: 1px solid hsl(var(--border)); */
-  border: 1px solid hsl(var(--muted));
+  border: 1px solid hsl(var(--border));
   border-radius: 1rem;
   padding: 1.5rem;
-  transition: all 0.2s;
-}
-
-.habit-tracker-card:hover {
-  border-color: hsl(var(--primary));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .habit-tracker-card.completed {
   border-color: hsl(var(--primary));
   background: hsl(var(--primary) / 0.03);
-}
-
-.habit-tracker-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.25rem;
-}
-
-.habit-tracker-title-row {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
 }
 
 .habit-tracker-icon {
@@ -247,14 +190,7 @@
   font-weight: 600;
 }
 
-/* Habit Controls (Time) */
-.habit-controls {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
+/* Timer Display */
 .timer-display {
   font-size: 2rem;
   font-weight: 700;
@@ -262,38 +198,71 @@
   font-variant-numeric: tabular-nums;
 }
 
-.start-button {
+/* Buttons */
+.start-button,
+.pause-button,
+.complete-button,
+.mark-done-button {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.625rem 1.25rem;
   border-radius: 0.5rem;
-  background: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
   border: none;
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.start-button {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
 }
 
 .start-button:hover {
   background: hsl(var(--primary) / 0.9);
+  transform: translateY(-1px);
+}
+
+.pause-button {
+  background: hsl(var(--secondary));
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
+}
+
+.pause-button:hover {
+  background: hsl(var(--secondary) / 0.8);
+}
+
+.complete-button {
+  background: hsl(var(--success));
+  color: white;
+}
+
+.complete-button:hover {
+  background: hsl(var(--success) / 0.9);
+  transform: translateY(-1px);
+}
+
+.mark-done-button {
+  width: 100%;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  justify-content: center;
+}
+
+.mark-done-button:hover {
+  background: hsl(var(--primary) / 0.9);
+  transform: translateY(-1px);
 }
 
 .target-text {
   font-size: 0.875rem;
   color: hsl(var(--muted-foreground));
-  margin-left: auto;
 }
 
 /* Quantity Controls */
-.quantity-controls {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
 .quantity-button {
   width: 2.5rem;
   height: 2.5rem;
@@ -308,9 +277,15 @@
   transition: all 0.2s;
 }
 
-.quantity-button:hover {
+.quantity-button:hover:not(:disabled) {
   background: hsl(var(--secondary) / 0.8);
   border-color: hsl(var(--primary));
+  transform: scale(1.05);
+}
+
+.quantity-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .quantity-value {
@@ -341,6 +316,16 @@
   width: 100%;
   background: hsl(var(--primary));
   border-radius: 9999px;
+  animation: fillProgress 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fillProgress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
 }
 
 .completion-status {
@@ -352,13 +337,65 @@
   font-weight: 600;
 }
 
-/* Action Buttons */
-.today-actions {
+/* Undo Button */
+.undo-button {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.375rem;
+  background: hsl(var(--destructive) / 0.1);
+  border: 1px solid hsl(var(--destructive) / 0.3);
+  color: hsl(var(--destructive));
   display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
+.undo-button:hover {
+  background: hsl(var(--destructive) / 0.2);
+  transform: scale(1.05);
+}
+
+/* Messages */
+.success-message {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.875rem 1rem;
+  border-radius: 0.5rem;
+  background: hsl(var(--success) / 0.1);
+  border: 1px solid hsl(var(--success) / 0.3);
+  color: hsl(var(--success));
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-top: 1rem;
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reminder-message {
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: hsl(var(--warning) / 0.1);
+  border: 1px solid hsl(var(--warning) / 0.3);
+  color: hsl(var(--warning));
+  font-size: 0.875rem;
+  font-weight: 500;
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Action Buttons */
 .action-btn {
   display: inline-flex;
   align-items: center;
@@ -380,6 +417,7 @@
 
 .action-btn.secondary:hover {
   background: hsl(var(--secondary) / 0.8);
+  transform: translateY(-1px);
 }
 
 .action-btn.primary {
@@ -389,16 +427,13 @@
 
 .action-btn.primary:hover {
   background: hsl(var(--primary) / 0.9);
+  transform: translateY(-1px);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .today-container {
     padding: 2rem 1rem;
-  }
-
-  .today-header {
-    gap: 1rem;
   }
 
   .greeting-icon-wrapper {
@@ -440,19 +475,7 @@
     height: 2.5rem;
   }
 
-  .habit-controls {
-    flex-wrap: wrap;
-  }
-
   .timer-display {
     font-size: 1.5rem;
-  }
-
-  .today-actions {
-    flex-direction: column;
-  }
-
-  .action-btn {
-    justify-content: center;
   }
 }
