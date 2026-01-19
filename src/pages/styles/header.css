@@ -1,0 +1,637 @@
+/* Today Container */
+.today-container {
+  min-height: 100vh;
+  /* background: hsl(var(--background)); */
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header Section */
+.greeting-icon-wrapper {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 1rem;
+  background: hsl(var(--primary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: hsl(var(--primary-foreground));
+  flex-shrink: 0;
+}
+
+.greeting-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  line-height: 1.2;
+  margin-bottom: 0.25rem;
+}
+
+.greeting-subtitle {
+  font-size: 1rem;
+  color: hsl(var(--muted-foreground));
+  font-weight: 500;
+}
+
+/* Day Info */
+.day-text {
+  font-size: 1.125rem;
+  color: hsl(var(--foreground));
+  line-height: 1.6;
+}
+
+.day-highlight {
+  color: hsl(var(--primary));
+  font-weight: 600;
+}
+
+.habits-highlight {
+  color: hsl(var(--primary));
+  font-weight: 600;
+}
+
+/* Progress Card */
+.progress-card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.progress-label {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.progress-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  line-height: 1.2;
+}
+
+.progress-percentage {
+  font-size: 2rem;
+  font-weight: 700;
+  color: hsl(var(--primary));
+  line-height: 1;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 0.75rem;
+  background: hsl(var(--secondary));
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: hsl(var(--primary));
+  border-radius: 9999px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Daily Tip Card */
+.daily-tip-card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 1rem;
+  padding: 1.75rem;
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  margin-bottom: 3rem;
+}
+
+.tip-icon-wrapper {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.75rem;
+  background: hsl(var(--primary) / 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: hsl(var(--primary));
+  flex-shrink: 0;
+}
+
+.tip-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: hsl(var(--primary));
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.tip-content {
+  font-size: 0.9375rem;
+  color: hsl(var(--foreground));
+  line-height: 1.6;
+}
+
+/* Section Title */
+.section-title-with-icon svg {
+  color: hsl(var(--primary));
+}
+
+/* Habit Tracker Card */
+.habit-tracker-card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.habit-tracker-card.completed {
+  border-color: hsl(var(--primary));
+  background: hsl(var(--primary) / 0.03);
+}
+
+.habit-tracker-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  background: hsl(var(--primary) / 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.habit-tracker-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  line-height: 1.2;
+  margin-bottom: 0.25rem;
+}
+
+.habit-tracker-type {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.completion-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  background: hsl(var(--primary) / 0.15);
+  color: hsl(var(--primary));
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+/* Timer Display */
+.timer-display {
+  font-size: 2rem;
+  font-weight: 700;
+  color: hsl(var(--primary));
+  font-variant-numeric: tabular-nums;
+}
+
+/* Buttons */
+.start-button,
+.pause-button,
+.complete-button,
+.mark-done-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.start-button {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+.start-button:hover {
+  background: hsl(var(--primary) / 0.9);
+  transform: translateY(-1px);
+}
+
+.pause-button {
+  background: hsl(var(--secondary));
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
+}
+
+.pause-button:hover {
+  background: hsl(var(--secondary) / 0.8);
+}
+
+.complete-button {
+  background: hsl(var(--success));
+  color: white;
+}
+
+.complete-button:hover {
+  background: hsl(var(--success) / 0.9);
+  transform: translateY(-1px);
+}
+
+.mark-done-button {
+  width: 100%;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  justify-content: center;
+}
+
+.mark-done-button:hover {
+  background: hsl(var(--primary) / 0.9);
+  transform: translateY(-1px);
+}
+
+.target-text {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+}
+
+/* Quantity Controls */
+.quantity-button {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  background: hsl(var(--secondary));
+  border: 1px solid hsl(var(--border));
+  color: hsl(var(--foreground));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.quantity-button:hover:not(:disabled) {
+  background: hsl(var(--secondary) / 0.8);
+  border-color: hsl(var(--primary));
+  transform: scale(1.05);
+}
+
+.quantity-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quantity-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: hsl(var(--primary));
+  min-width: 3rem;
+  text-align: center;
+}
+
+.quantity-target {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+}
+
+/* Binary Habit Progress */
+.habit-progress-bar-full {
+  width: 100%;
+  height: 0.5rem;
+  background: hsl(var(--secondary));
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.habit-progress-fill-full {
+  height: 100%;
+  width: 100%;
+  background: hsl(var(--primary));
+  border-radius: 9999px;
+  animation: fillProgress 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fillProgress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.completion-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: hsl(var(--primary));
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+/* Undo Button */
+.undo-button {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.375rem;
+  background: hsl(var(--destructive) / 0.1);
+  border: 1px solid hsl(var(--destructive) / 0.3);
+  color: hsl(var(--destructive));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.undo-button:hover {
+  background: hsl(var(--destructive) / 0.2);
+  transform: scale(1.05);
+}
+
+/* Messages */
+.success-message {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.875rem 1rem;
+  border-radius: 0.5rem;
+  background: hsl(var(--success) / 0.1);
+  border: 1px solid hsl(var(--success) / 0.3);
+  color: hsl(var(--success));
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-top: 1rem;
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reminder-message {
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: hsl(var(--warning) / 0.1);
+  border: 1px solid hsl(var(--warning) / 0.3);
+  color: hsl(var(--warning));
+  font-size: 0.875rem;
+  font-weight: 500;
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Action Buttons */
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.875rem 1.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.action-btn.secondary {
+  background: hsl(var(--secondary));
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
+}
+
+.action-btn.secondary:hover {
+  background: hsl(var(--secondary) / 0.8);
+  transform: translateY(-1px);
+}
+
+.action-btn.primary {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+.action-btn.primary:hover {
+  background: hsl(var(--primary) / 0.9);
+  transform: translateY(-1px);
+}
+
+/* Header Styles */
+.header-main {
+  background: hsl(var(--background-secondary));
+  border-bottom: 1px solid hsl(var(--border));
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.logo-container {
+  text-decoration: none;
+}
+
+.header-title {
+  color: hsl(var(--foreground));
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.header-subtitle {
+  color: hsl(var(--muted-foreground));
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  color: hsl(var(--muted-foreground));
+  background: transparent;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.nav-link:hover {
+  background: hsl(var(--secondary));
+}
+
+/* Desktop Navigation */
+.desktop-navigation {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Hamburger Button */
+.hamburger-button {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  background: transparent;
+  border: 1px solid hsl(var(--border));
+  color: hsl(var(--foreground));
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.hamburger-button:hover {
+  background: hsl(var(--secondary));
+}
+
+/* Mobile Menu Overlay */
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: hsl(0 0% 0% / 0.5);
+  z-index: 60;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Mobile Menu Drawer */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 280px;
+  max-width: 85vw;
+  background: hsl(var(--card));
+  border-left: 1px solid hsl(var(--border));
+  padding: 1.5rem;
+  z-index: 70;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+}
+
+.mobile-menu.open {
+  transform: translateX(0);
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  color: hsl(var(--foreground));
+  background: transparent;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.mobile-nav-link:hover {
+  background: hsl(var(--secondary));
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .desktop-navigation {
+    display: none;
+  }
+
+  .hamburger-button {
+    display: flex;
+  }
+
+  .today-container {
+    padding: 2rem 1rem;
+  }
+
+  .greeting-icon-wrapper {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  .greeting-title {
+    font-size: 1.75rem;
+  }
+
+  .greeting-subtitle {
+    font-size: 0.875rem;
+  }
+
+  .day-text {
+    font-size: 1rem;
+  }
+
+  .progress-card {
+    padding: 1.5rem;
+  }
+
+  .progress-title {
+    font-size: 1.5rem;
+  }
+
+  .progress-percentage {
+    font-size: 1.75rem;
+  }
+
+  .daily-tip-card {
+    padding: 1.5rem;
+    gap: 1rem;
+  }
+
+  .tip-icon-wrapper {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .timer-display {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-nav {
+    padding: 0.875rem 1rem;
+  }
+
+  .header-title {
+    font-size: 1.125rem;
+  }
+
+  .header-subtitle {
+    font-size: 0.6875rem;
+  }
+}
