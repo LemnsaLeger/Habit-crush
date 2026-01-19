@@ -13,7 +13,8 @@ import {
   Clock,
   Settings as SettingsIcon,
   Edit,
-  Dumbbell
+  Dumbbell,
+  BookOpen
 } from "lucide-react";
 import "./styles/habitinsight.css";
 
