@@ -119,6 +119,16 @@ export default function Header({ onThemeChange }) {
 
             <li>
               <Link
+                to="/today"
+                className="mobile-nav-link flex items-center gap-2 px-4 py-2 rounded-lg transition-colors"
+              >
+                <CalendarCheck size={18} aria-hidden="true" />
+                <span className="text-sm font-medium">Today</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
                 to="/create-habit"
                 className="mobile-nav-link"
                 onClick={closeMenu}
