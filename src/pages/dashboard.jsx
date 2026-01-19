@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import {useState, useEffect} from "react"; 
 
-import { CheckCircle2, Flame,  TrendingUp, Target, Plus, Info, Clock } from "lucide-react";
+import { CheckCircle2, Flame,  TrendingUp, Target, Plus, Info, Clock, Dumbbell, Brain, BookOpen } from "lucide-react";
 
+import "../index.css";
 import "./styles/dashboard.css";
 
 export default function DashboardPrime () {
@@ -117,11 +118,19 @@ useEffect(() => {
                         className={`habit-icon-wrapper ${habit.iconBg} w-12 h-12 rounded-xl flex items-center justify-center shrink-0`}
                       >
                         <span
-                          className="habit-emoji text-[1.5rem]"
+                          className={`habit-emoji text-[1.5rem]`}
                           role="img"
                           aria-label={habit.name}
                         >
-                          {habit.icon}
+                          {habit.icon === "exercise" ?
+                            <Dumbbell />
+                          : habit.icon === "mind" ?
+                            <Brain />
+                          : habit.icon === "read" ?
+                            <BookOpen />
+                          : habit.icon === "time" ?
+                            <Clock />
+                          : <>;</>}
                         </span>
                       </div>
                       <div>
@@ -158,10 +167,13 @@ useEffect(() => {
                   </div>
 
                   <footer className="habit-actions">
-                    <button className="habit-action-button">
+                    <Link
+                      className="habit-action-button"
+                      to={`/insights/${habit.id}`}
+                    >
                       <Info size={16} aria-hidden="true" />
                       <span>Insights</span>
-                    </button>
+                    </Link>
                     <button className="habit-action-button secondary">
                       <Clock size={16} aria-hidden="true" />
                       <span>History</span>
