@@ -1,9 +1,13 @@
+import { useState } from "react";
+
 import { SmilePlus, Palette } from "lucide-react";
+import IconsOverlay from "./iconsOverlay";
 
 import "../index.css";
 
 export default function HabitBasics({ active, habit, setHabit , onNext, onBack})
  {
+  const [showIcons, setShowIcons] = useState(false);
   const isValid = habit.name.trim() && habit.icon && habit.color;
 
   return (
@@ -45,23 +49,33 @@ export default function HabitBasics({ active, habit, setHabit , onNext, onBack})
         </article>
 
         {/* icon */}
-        <article className="first-card-title basics">
+        <article className="first-card-title basics relative">
           <div className="article-header flex gap-4">
             <div className="logo">
               <SmilePlus />
             </div>
+
             <div className="info">
               <h3>Icon</h3>
               <input
                 type="text"
                 placeholder="Click to choose an icon"
-                onFocus={() => {}}
-                onChange={(e) => setHabit({ ...habit, icon: e.target.value })}
-                value={habit.icon}
+                readOnly
+                value={habit.icon || ""}
+                onClick={() => setShowIcons(true)}
               />
             </div>
           </div>
-          {/* <p>Create habits that stick to our giant habit control</p> */}
+
+          {showIcons && (
+            <IconsOverlay
+              selectedIcon={habit.icon}
+              onSelectIcon={(iconId) => {
+                setHabit({ ...habit, icon: iconId });
+                setShowIcons(false);
+              }}
+            />
+          )}
         </article>
 
         <article className="first-card-title basics">
