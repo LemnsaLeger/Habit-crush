@@ -1,23 +1,27 @@
-import{ useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 
+
+import React, { useState, useEffect } from "react";
 import {
   Coffee,
   Zap,
   Play,
+  Pause,
+  Check,
   Minus,
   Plus,
-  Check,
   TrendingUp,
   Target,
-  BookOpen,
-  Clock,
-  Dumbbell,
+  X,
+  Medal,
+  BicepsFlexed,
+  BookSearchIcon,
 } from "lucide-react";
+
+import "../index.css";
 import "./styles/today.css";
 
 export default function Today() {
-  // Get current day
+  // Get current day and greeting
   const days = [
     "Sunday",
     "Monday",
@@ -29,159 +33,121 @@ export default function Today() {
   ];
   const currentDay = days[new Date().getDay()];
 
-  // State to hold habits
-  const [habits, setHabits] = useState([]);
-
-
-// heloer for days of the week
-const DAYS = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
-
-const getTodayName = () => DAYS[new Date().getDay()];
-
-const getTodayKey = () =>
-  `today-habits-${new Date().toISOString().split("T")[0]}`;
-
-
-// Build today's habits
-const buildTodayHabits = () => {
-  const master = JSON.parse(localStorage.getItem("habits")) || [];
-  const today = getTodayName();
-  const todayKey = getTodayKey();
-
-  const progress = JSON.parse(localStorage.getItem(todayKey)) || [];
-
-  return master
-    .filter((h) => h.frequency?.includes(today))
-    .map((habit) => {
-      const saved = progress.find((p) => p.habitId === habit.id);
-
-      return {
-        ...habit,
-        currentValue: saved?.currentValue ?? 0,
-      };
-    });
-};
-
-useEffect(() => {
-  setHabits(buildTodayHabits());
-}, []);
-
-// Save progress to localStorage
-useEffect(() => {
-  const todayKey = getTodayKey();
-
-  const progressOnly = habits.map((h) => ({
-    habitId: h.id,
-    currentValue: h.currentValue,
-  }));
-
-  localStorage.setItem(todayKey, JSON.stringify(progressOnly));
-}, [habits]);
-
-
-
-  // Get habit progress
-  const getHabitProgress = (habit) => {
-    if (habit.type === "binary") return habit.completed ? 100 : 0;
-    return Math.min(
-      Math.round((habit.currentValue / habit.targetValue) * 100),
-      100
-    );
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good morning!";
+    if (hour < 18) return "Good afternoon!";
+    return "Good evening!";
   };
 
-  // Check if habit is completed
-const isHabitCompleted = (habit) => {
-  if (habit.type === "binary") return habit.currentValue === 1;
-  return habit.currentValue >= habit.targetValue;
-};
+  const [greeting, setGreeting] = useState(getGreeting());
 
+  // Timer state for Morning Meditation
+  const [timerSeconds, setTimerSeconds] = useState(0);
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
+  const [meditationCompleted, setMeditationCompleted] = useState(false);
+  const [showMeditationMessage, setShowMeditationMessage] = useState(false);
 
-const totalHabits = habits.length;
-const completedCount = habits.filter(isHabitCompleted).length;
-const progressPercentage =
-  totalHabits === 0 ? 0 : Math.round((completedCount / totalHabits) * 100);
+  // Quantity state for Read Books
+  const [pagesRead, setPagesRead] = useState(0);
+  const [booksCompleted, setBooksCompleted] = useState(false);
+  const [showBooksMessage, setShowBooksMessage] = useState(false);
+  const pagesTarget = 20;
 
+  // Binary state for Exercise
+  const [exerciseCompleted, setExerciseCompleted] = useState(false);
+  const [showExerciseMessage, setShowExerciseMessage] = useState(false);
 
-const handleIncrement = (id) => {
-  setHabits((prev) =>
-    prev.map((h) => {
-      if (h.id !== id) return h;
+  // Calculate global progress
+  const totalHabits = 3;
+  const completedCount = [
+    meditationCompleted,
+    booksCompleted,
+    exerciseCompleted,
+  ].filter(Boolean).length;
+  const progressPercentage = Math.round((completedCount / totalHabits) * 100);
 
-      const newValue = h.currentValue + 1;
-      return {
-        ...h,
-        currentValue: newValue,
-        completed: newValue >= h.targetValue,
-      };
-    })
-  );
-};
+  // Timer effect
+  useEffect(() => {
+    let interval;
+    if (isTimerRunning && !meditationCompleted) {
+      interval = setInterval(() => {
+        setTimerSeconds((prev) => prev + 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [isTimerRunning, meditationCompleted]);
 
-    const handleToggleBinary = (id) => {
-      setHabits((prev) =>
-        prev.map((h) =>
-          h.id === id ? { ...h, currentValue: h.currentValue ? 0 : 1 } : h
-        )
-      );
-    };
-
-
-
-  const handleDecrement = (id) => {
-    setHabits((prev) =>
-      prev.map((h) => {
-        if (h.id !== id || h.currentValue <= 0) return h;
-
-        const newValue = h.currentValue - 1;
-        return {
-          ...h,
-          currentValue: newValue,
-          completed: newValue >= h.targetValue,
-        };
-      })
-    );
+  // Format timer display
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
   };
 
-  // Start time-based habit
-  const handleStartTimeHabit = (id) => {
-    setHabits((prev) =>
-      prev.map((h) => {
-        if (h.id !== id) return h;
-
-        const newValue = h.currentValue + 1;
-        return {
-          ...h,
-          currentValue: newValue,
-          completed: newValue >= h.targetValue,
-        };
-      })
-    );
+  // Timer handlers
+  const handleStartTimer = () => {
+    setIsTimerRunning(true);
   };
 
+  const handlePauseTimer = () => {
+    setIsTimerRunning(false);
+  };
+
+  const handleCompleteTimer = () => {
+    setIsTimerRunning(false);
+    setMeditationCompleted(true);
+    setShowMeditationMessage(true);
+    setTimeout(() => setShowMeditationMessage(false), 5000);
+  };
+
+  // Quantity handlers
+  const handleIncrementPages = () => {
+    const newValue = pagesRead + 1;
+    setPagesRead(newValue);
+    if (newValue >= pagesTarget) {
+      setBooksCompleted(true);
+      setShowBooksMessage(true);
+      setTimeout(() => setShowBooksMessage(false), 5000);
+    }
+  };
+
+  const handleDecrementPages = () => {
+    if (pagesRead > 0) {
+      const newValue = pagesRead - 1;
+      setPagesRead(newValue);
+      if (newValue < pagesTarget) {
+        setBooksCompleted(false);
+      }
+    }
+  };
+
+  // Exercise handler
+  const handleCompleteExercise = () => {
+    setExerciseCompleted(true);
+    setShowExerciseMessage(true);
+    setTimeout(() => setShowExerciseMessage(false), 5000);
+  };
+
+  const handleUndoExercise = () => {
+    setExerciseCompleted(false);
+  };
 
   return (
     <div className="today-container">
       {/* Header Section */}
-      <header className="today-header">
+      <header className="flex items-center gap-5 mb-8">
         <div className="greeting-icon-wrapper">
           <Coffee size={32} aria-hidden="true" />
         </div>
         <div>
-          <h1 className="greeting-title">Good morning!</h1>
+          <h1 className="greeting-title">{greeting}</h1>
           <p className="greeting-subtitle">Start your day with intention</p>
         </div>
       </header>
 
       {/* Day Info */}
-      <section className="day-info">
+      <section className="mb-8">
         <p className="day-text">
           It's <span className="day-highlight">{currentDay}</span>. You have{" "}
           <span className="habits-highlight">{totalHabits} habits</span>{" "}
@@ -189,9 +155,9 @@ const handleIncrement = (id) => {
         </p>
       </section>
 
-      {/* Progress Card */}
+      {/* Global Progress Card */}
       <article className="progress-card">
-        <div className="progress-header">
+        <div className="flex items-start justify-between mb-6">
           <div>
             <p className="progress-label">Today's Progress</p>
             <h2 className="progress-title">
@@ -228,125 +194,198 @@ const handleIncrement = (id) => {
       </article>
 
       {/* Today's Habits Section */}
-      <section className="todays-habits-section">
-        <h2 className="section-title-with-icon">
+      <section className="mt-12">
+        <h2 className="flex items-center gap-3 text-2xl font-bold mb-6 section-title-with-icon">
           <Target size={24} aria-hidden="true" />
           <span>Today's Habits</span>
         </h2>
 
-        <div className="habits-list">
-          {habits.map((habit) => (
-            <article
-              key={habit.id}
-              className={`habit-tracker-card ${
-                habit.completed ? "completed" : ""
-              }`}
-            >
-              <div className="habit-tracker-header">
-                <div className="habit-tracker-title-row">
-                  <div className="habit-tracker-icon">
-                    <span role="img" aria-label={habit.name}>
-                      <habit.icon color="hsl(var(--primary))" />
-                    </span>
-                  </div>
-                  <div>
-                    <h3 className="habit-tracker-name">{habit.name}</h3>
-                    <span className="habit-tracker-type">
-                      {habit.type === "time" && "⏱️ time"}
-                      {habit.type === "quantity" && "# quantity"}
-                      {habit.type === "binary" && "⚪ binary"}
-                    </span>
-                  </div>
-                </div>
-                {habit.completed && (
-                  <span className="completion-badge">
-                    <Check size={14} aria-hidden="true" />
-                    Done
+        <div className="flex flex-col gap-5">
+          {/* Morning Meditation - Time-based */}
+          <article
+            className={`habit-tracker-card ${meditationCompleted ? "completed" : ""}`}
+          >
+            <div className="flex items-center justify-between mb-5">
+              <div className="flex items-center gap-4">
+                <div className="habit-tracker-icon">
+                  <span role="img" aria-label="Morning Meditation">
+                    <BicepsFlexed size={24}/>
                   </span>
-                )}
+                </div>
+                <div>
+                  <h3 className="habit-tracker-name">Morning Meditation</h3>
+                  <span className="habit-tracker-type">⏱️ time</span>
+                </div>
               </div>
+              {meditationCompleted && (
+                <span className="completion-badge">
+                  <Check size={14} aria-hidden="true" />
+                  Done
+                </span>
+              )}
+            </div>
 
-              {/* Time/Quantity Habit Controls */}
-              {(habit.type === "time" || habit.type === "quantity") && (
-                <div className="habit-controls">
-                  <div className="timer-display">
-                    {String(Math.floor(habit.currentValue / 60)).padStart(
-                      2,
-                      "0"
-                    )}
-                    :{String(habit.currentValue % 60).padStart(2, "0")}
-                  </div>
+            <div className="flex items-center gap-4 flex-wrap mb-4">
+              <div className="timer-display">{formatTime(timerSeconds)}</div>
 
-                  <button
-                    className="start-button"
-                    onClick={() => handleStartTimeHabit(habit.id)}
-                  >
-                    <Play size={16} />
-                    Start
-                  </button>
-
-                  <span className="target-text">
-                    Target: {habit.targetValue} {habit.unit}
-                  </span>
-                </div>
+              {!meditationCompleted && !isTimerRunning && (
+                <button className="start-button" onClick={handleStartTimer}>
+                  <Play size={16} aria-hidden="true" />
+                  <span>Start</span>
+                </button>
               )}
 
-              {/* Quantity Counter */}
-              {habit.type === "quantity" && (
-                <div className="quantity-controls">
-                  <button
-                    className="quantity-button"
-                    onClick={() => handleDecrement(habit.id)}
-                    aria-label="Decrease"
-                  >
-                    <Minus size={18} aria-hidden="true" />
-                  </button>
-                  <span className="quantity-value">{habit.currentValue}</span>
-                  <button
-                    className="quantity-button"
-                    onClick={() => handleIncrement(habit.id)}
-                    aria-label="Increase"
-                  >
-                    <Plus size={18} aria-hidden="true" />
-                  </button>
-                  <span className="quantity-target">
-                    / {habit.targetValue} {habit.unit}
-                  </span>
-                </div>
-              )}
-
-              {/* Binary Habit */}
-              {habit.type === "binary" && (
+              {!meditationCompleted && isTimerRunning && (
                 <>
-                  <div className="habit-progress-bar-full">
-                    <div className="habit-progress-fill-full" />
-                  </div>
+                  <button className="pause-button" onClick={handlePauseTimer}>
+                    <Pause size={16} aria-hidden="true" />
+                    <span>Pause</span>
+                  </button>
                   <button
-                    className="completion-status"
-                    onClick={() => handleToggleBinary(habit.id)}
+                    className="complete-button"
+                    onClick={handleCompleteTimer}
                   >
-                    <Check size={16} />
-                    <span>
-                      {isHabitCompleted(habit) ? "Completed" : "Mark done"}
-                    </span>
+                    <Check size={16} aria-hidden="true" />
+                    <span>Complete</span>
                   </button>
                 </>
               )}
-            </article>
-          ))}
+
+              <span className="target-text ml-auto">Target: 30 minutes</span>
+            </div>
+
+            {showMeditationMessage && (
+              <div className="success-message">
+                <Check size={16} aria-hidden="true" />
+                <span>Great job staying mindful today!</span>
+              </div>
+            )}
+          </article>
+
+          {/* Read Books - Quantity-based */}
+          <article
+            className={`habit-tracker-card ${booksCompleted ? "completed" : ""}`}
+          >
+            <div className="flex items-center justify-between mb-5">
+              <div className="flex items-center gap-4">
+                <div className="habit-tracker-icon">
+                  <span role="img" aria-label="Read Books">
+                    <BookSearchIcon size={24} />
+                  </span>
+                </div>
+                <div>
+                  <h3 className="habit-tracker-name">Read Books</h3>
+                  <span className="habit-tracker-type"># quantity</span>
+                </div>
+              </div>
+              {booksCompleted && (
+                <span className="completion-badge">
+                  <Check size={14} aria-hidden="true" />
+                  Done
+                </span>
+              )}
+            </div>
+
+            <div className="flex items-center gap-4 mb-4">
+              <button
+                className="quantity-button"
+                onClick={handleDecrementPages}
+                aria-label="Decrease pages"
+                disabled={pagesRead === 0}
+              >
+                <Minus size={18} aria-hidden="true" />
+              </button>
+              <span className="quantity-value">{pagesRead}</span>
+              <button
+                className="quantity-button"
+                onClick={handleIncrementPages}
+                aria-label="Increase pages"
+              >
+                <Plus size={18} aria-hidden="true" />
+              </button>
+              <span className="quantity-target">/ {pagesTarget} pages</span>
+            </div>
+
+            {!booksCompleted && pagesRead > 0 && (
+              <div className="reminder-message">
+                <span>Keep going! {pagesTarget - pagesRead} pages to go.</span>
+              </div>
+            )}
+
+            {showBooksMessage && (
+              <div className="success-message">
+                <Check size={16} aria-hidden="true" />
+                <span>Amazing! You've reached your reading goal!</span>
+              </div>
+            )}
+          </article>
+
+          {/* Exercise - Binary */}
+          <article
+            className={`habit-tracker-card ${exerciseCompleted ? "completed" : ""}`}
+          >
+            <div className="flex items-center justify-between mb-5">
+              <div className="flex items-center gap-4">
+                <div className="habit-tracker-icon">
+                  <span role="img" aria-label="Exercise">
+                    <Medal size={24} />
+                  </span>
+                </div>
+                <div>
+                  <h3 className="habit-tracker-name">Exercise</h3>
+                  <span className="habit-tracker-type"> binary</span>
+                </div>
+              </div>
+              {exerciseCompleted && (
+                <button
+                  className="undo-button"
+                  onClick={handleUndoExercise}
+                  aria-label="Undo completion"
+                >
+                  <X size={16} aria-hidden="true" />
+                </button>
+              )}
+            </div>
+
+            {!exerciseCompleted ?
+              <button
+                className="mark-done-button"
+                onClick={handleCompleteExercise}
+              >
+                <Check size={18} aria-hidden="true" />
+                <span>Mark Done</span>
+              </button>
+            : <>
+                <div className="habit-progress-bar-full">
+                  <div className="habit-progress-fill-full" />
+                </div>
+                <div className="completion-status">
+                  <Check size={16} aria-hidden="true" />
+                  <span>Completed</span>
+                </div>
+              </>
+            }
+
+            {showExerciseMessage && (
+              <div className="success-message">
+                <Check size={16} aria-hidden="true" />
+                <span>You showed up for yourself today!</span>
+              </div>
+            )}
+          </article>
         </div>
       </section>
 
       {/* Action Buttons */}
-      <footer className="today-actions">
-        <Link to="/" className="action-btn secondary">
+      <footer className="flex gap-4 mt-8 flex-wrap">
+        <button className="action-btn secondary">
           <TrendingUp size={18} aria-hidden="true" />
           <span>View Dashboard</span>
-        </Link>
-        <Link className="action-btn primary" to="/create-habit">
+        </button>
+        <button className="action-btn primary">
           <Target size={18} aria-hidden="true" />
           <span>Add New Habit</span>
-        </Link>
+        </button>
       </footer>
     </div>
   );
