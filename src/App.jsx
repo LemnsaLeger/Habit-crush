@@ -7,6 +7,7 @@ import CreationWizard from './pages/creationWizard.jsx';
 import SettingsPage from './components/settingsPage/settings.jsx';
 import DashboardPrime from "./pages/dashboard.jsx";
 import Today from "./pages/today.jsx";
+import HabitInsights from "./pages/habitinsights.jsx";
 import ThemeToggler from "./components/themeToggler.jsx";
 
 
@@ -34,6 +35,7 @@ function App() {
           <Route path="create-habit" element={<CreationWizard/>}/>
           <Route path="settings" element={<SettingsPage/>}/>
           <Route path="today" element={<Today/>}/>
+          <Route path="insights/:habitId" element={<HabitInsights/>}/>
         </Routes>
       </main>
     </BrowserRouter>
