@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from "react";
 import {
   Coffee,
@@ -19,6 +17,7 @@ import {
 
 import "../index.css";
 import "./styles/today.css";
+import { Link } from "react-router-dom";
 
 export default function Today() {
   // Get current day and greeting
@@ -40,44 +39,28 @@ export default function Today() {
     return "Good evening!";
   };
 
-  const [greeting, setGreeting] = useState(getGreeting());
+  const [greeting] = useState(getGreeting());
 
-  // Timer state for Morning Meditation
-  const [timerSeconds, setTimerSeconds] = useState(0);
-  const [isTimerRunning, setIsTimerRunning] = useState(false);
-  const [meditationCompleted, setMeditationCompleted] = useState(false);
-  const [showMeditationMessage, setShowMeditationMessage] = useState(false);
+  // Dynamic state management for loaded habits
+  const [habitStates, setHabitStates] = useState({});
+  const intervalsRef = React.useRef({});
 
-  // Quantity state for Read Books
-  const [pagesRead, setPagesRead] = useState(0);
-  const [booksCompleted, setBooksCompleted] = useState(false);
-  const [showBooksMessage, setShowBooksMessage] = useState(false);
-  const pagesTarget = 20;
+  const dayIndex = new Date().getDay(); // 0–6
 
-  // Binary state for Exercise
-  const [exerciseCompleted, setExerciseCompleted] = useState(false);
-  const [showExerciseMessage, setShowExerciseMessage] = useState(false);
+  const habits = JSON.parse(localStorage.getItem("habits")) || [];
 
-  // Calculate global progress
-  const totalHabits = 3;
-  const completedCount = [
-    meditationCompleted,
-    booksCompleted,
-    exerciseCompleted,
-  ].filter(Boolean).length;
-  const progressPercentage = Math.round((completedCount / totalHabits) * 100);
+  // Load only habits scheduled for today
+  const todaysHabits = habits.filter(
+    (habit) =>
+      !habit.frequency || habit.frequency.length === 0 || habit.frequency.includes(dayIndex),
+  );
 
-  // Timer effect
-  useEffect(() => {
-    let interval;
-    if (isTimerRunning && !meditationCompleted) {
-      interval = setInterval(() => {
-        setTimerSeconds((prev) => prev + 1);
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [isTimerRunning, meditationCompleted]);
-
+  // Calculate global progress from dynamic habits
+  const completedCount = todaysHabits.filter(h => h.completed).length;
+  const totalHabits = todaysHabits.length || 1; // Avoid division by zero
+  const progressPercentage = totalHabits > 0 
+    ? Math.round((completedCount / totalHabits) * 100) 
+    : 0;
   // Format timer display
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -85,53 +68,90 @@ export default function Today() {
     return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
   };
 
-  // Timer handlers
-  const handleStartTimer = () => {
-    setIsTimerRunning(true);
+  // Helper: Get icon component from habit icon ID
+  const getHabitIcon = (iconId, size = 24) => {
+    const iconMap = {
+      biceps: <BicepsFlexed size={size} />,
+      book: <BookSearchIcon size={size} />,
+      medal: <Medal size={size} />,
+    };
+    return iconMap[iconId] || <Medal size={size} />;
   };
 
-  const handlePauseTimer = () => {
-    setIsTimerRunning(false);
+  // Dynamic habit handlers
+  const updateHabitState = (habitId, updates) => {
+    setHabitStates(prev => ({
+      ...prev,
+      [habitId]: { ...prev[habitId], ...updates }
+    }));
   };
 
-  const handleCompleteTimer = () => {
-    setIsTimerRunning(false);
-    setMeditationCompleted(true);
-    setShowMeditationMessage(true);
-    setTimeout(() => setShowMeditationMessage(false), 5000);
+  const handleStartTimer = (habitId) => {
+    if (intervalsRef.current[habitId]) return;
+    updateHabitState(habitId, { isTimerRunning: true });
+    intervalsRef.current[habitId] = setInterval(() => {
+      setHabitStates(prev => ({
+        ...prev,
+        [habitId]: { ...prev[habitId], timerSeconds: (prev[habitId]?.timerSeconds || 0) + 1 }
+      }));
+    }, 1000);
+  };
+
+  const handlePauseTimer = (habitId) => {
+    clearInterval(intervalsRef.current[habitId]);
+    intervalsRef.current[habitId] = null;
+    updateHabitState(habitId, { isTimerRunning: false });
+  };
+
+  const handleCompleteTimer = (habitId) => {
+    clearInterval(intervalsRef.current[habitId]);
+    intervalsRef.current[habitId] = null;
+    updateHabitState(habitId, { isTimerRunning: false, completed: true });
+    
+    // Save to localStorage
+    const updated = habits.map(h => 
+      h.id === habitId ? { ...h, completed: true } : h
+    );
+    localStorage.setItem("habits", JSON.stringify(updated));
   };
 
   // Quantity handlers
-  const handleIncrementPages = () => {
-    const newValue = pagesRead + 1;
-    setPagesRead(newValue);
-    if (newValue >= pagesTarget) {
-      setBooksCompleted(true);
-      setShowBooksMessage(true);
-      setTimeout(() => setShowBooksMessage(false), 5000);
+  const handleIncrementPages = (habitId) => {
+    const current = habitStates[habitId] || { value: 0 };
+    const newValue = (current.value || 0) + 1;
+    const isComplete = Number(current.target || 20) <= newValue;
+    updateHabitState(habitId, { value: newValue, completed: isComplete });
+    
+    if (isComplete) {
+      const updated = habits.map(h => 
+        h.id === habitId ? { ...h, completed: true } : h
+      );
+      localStorage.setItem("habits", JSON.stringify(updated));
     }
   };
 
-  const handleDecrementPages = () => {
-    if (pagesRead > 0) {
-      const newValue = pagesRead - 1;
-      setPagesRead(newValue);
-      if (newValue < pagesTarget) {
-        setBooksCompleted(false);
-      }
-    }
+  const handleDecrementPages = (habitId) => {
+    const current = habitStates[habitId] || { value: 0 };
+    const newValue = Math.max(0, (current.value || 0) - 1);
+    updateHabitState(habitId, { value: newValue, completed: false });
   };
 
   // Exercise handler
-  const handleCompleteExercise = () => {
-    setExerciseCompleted(true);
-    setShowExerciseMessage(true);
-    setTimeout(() => setShowExerciseMessage(false), 5000);
+  const handleCompleteExercise = (habitId) => {
+    updateHabitState(habitId, { completed: true });
+    const updated = habits.map(h => 
+      h.id === habitId ? { ...h, completed: true } : h
+    );
+    localStorage.setItem("habits", JSON.stringify(updated));
   };
 
-  const handleUndoExercise = () => {
-    setExerciseCompleted(false);
-  };
+  // Cleanup intervals on unmount
+  useEffect(() => {
+    const intervals = intervalsRef.current;
+    return () => {
+      Object.values(intervals).forEach(i => i && clearInterval(i));
+    };
+  }, []);
 
   return (
     <div className="today-container">
@@ -201,191 +221,167 @@ export default function Today() {
         </h2>
 
         <div className="flex flex-col gap-5">
-          {/* Morning Meditation - Time-based */}
-          <article
-            className={`habit-tracker-card ${meditationCompleted ? "completed" : ""}`}
-          >
-            <div className="flex items-center justify-between mb-5">
-              <div className="flex items-center gap-4">
-                <div className="habit-tracker-icon">
-                  <span role="img" aria-label="Morning Meditation">
-                    <BicepsFlexed size={24}/>
-                  </span>
-                </div>
-                <div>
-                  <h3 className="habit-tracker-name">Morning Meditation</h3>
-                  <span className="habit-tracker-type">⏱️ time</span>
-                </div>
-              </div>
-              {meditationCompleted && (
-                <span className="completion-badge">
-                  <Check size={14} aria-hidden="true" />
-                  Done
-                </span>
-              )}
-            </div>
+          {/* Render dynamically loaded tasks using templates */}
+          {todaysHabits.length === 0 ?
+            <p className="text-gray-400 text-center py-8">
+              No habits scheduled for today. Create one to get started!
+            </p>
+          : todaysHabits.map((habit) => {
+              const isCompleted = habit.completed || false;
+              const isTimerBased = habit.type === "time";
+              const isQuantityBased = habit.type === "quantity";
+              const state = habitStates[habit.id] || {
+                timerSeconds: 0,
+                isTimerRunning: false,
+                value: 0,
+                completed: isCompleted,
+              };
 
-            <div className="flex items-center gap-4 flex-wrap mb-4">
-              <div className="timer-display">{formatTime(timerSeconds)}</div>
-
-              {!meditationCompleted && !isTimerRunning && (
-                <button className="start-button" onClick={handleStartTimer}>
-                  <Play size={16} aria-hidden="true" />
-                  <span>Start</span>
-                </button>
-              )}
-
-              {!meditationCompleted && isTimerRunning && (
-                <>
-                  <button className="pause-button" onClick={handlePauseTimer}>
-                    <Pause size={16} aria-hidden="true" />
-                    <span>Pause</span>
-                  </button>
-                  <button
-                    className="complete-button"
-                    onClick={handleCompleteTimer}
-                  >
-                    <Check size={16} aria-hidden="true" />
-                    <span>Complete</span>
-                  </button>
-                </>
-              )}
-
-              <span className="target-text ml-auto">Target: 30 minutes</span>
-            </div>
-
-            {showMeditationMessage && (
-              <div className="success-message">
-                <Check size={16} aria-hidden="true" />
-                <span>Great job staying mindful today!</span>
-              </div>
-            )}
-          </article>
-
-          {/* Read Books - Quantity-based */}
-          <article
-            className={`habit-tracker-card ${booksCompleted ? "completed" : ""}`}
-          >
-            <div className="flex items-center justify-between mb-5">
-              <div className="flex items-center gap-4">
-                <div className="habit-tracker-icon">
-                  <span role="img" aria-label="Read Books">
-                    <BookSearchIcon size={24} />
-                  </span>
-                </div>
-                <div>
-                  <h3 className="habit-tracker-name">Read Books</h3>
-                  <span className="habit-tracker-type"># quantity</span>
-                </div>
-              </div>
-              {booksCompleted && (
-                <span className="completion-badge">
-                  <Check size={14} aria-hidden="true" />
-                  Done
-                </span>
-              )}
-            </div>
-
-            <div className="flex items-center gap-4 mb-4">
-              <button
-                className="quantity-button"
-                onClick={handleDecrementPages}
-                aria-label="Decrease pages"
-                disabled={pagesRead === 0}
-              >
-                <Minus size={18} aria-hidden="true" />
-              </button>
-              <span className="quantity-value">{pagesRead}</span>
-              <button
-                className="quantity-button"
-                onClick={handleIncrementPages}
-                aria-label="Increase pages"
-              >
-                <Plus size={18} aria-hidden="true" />
-              </button>
-              <span className="quantity-target">/ {pagesTarget} pages</span>
-            </div>
-
-            {!booksCompleted && pagesRead > 0 && (
-              <div className="reminder-message">
-                <span>Keep going! {pagesTarget - pagesRead} pages to go.</span>
-              </div>
-            )}
-
-            {showBooksMessage && (
-              <div className="success-message">
-                <Check size={16} aria-hidden="true" />
-                <span>Amazing! You've reached your reading goal!</span>
-              </div>
-            )}
-          </article>
-
-          {/* Exercise - Binary */}
-          <article
-            className={`habit-tracker-card ${exerciseCompleted ? "completed" : ""}`}
-          >
-            <div className="flex items-center justify-between mb-5">
-              <div className="flex items-center gap-4">
-                <div className="habit-tracker-icon">
-                  <span role="img" aria-label="Exercise">
-                    <Medal size={24} />
-                  </span>
-                </div>
-                <div>
-                  <h3 className="habit-tracker-name">Exercise</h3>
-                  <span className="habit-tracker-type"> binary</span>
-                </div>
-              </div>
-              {exerciseCompleted && (
-                <button
-                  className="undo-button"
-                  onClick={handleUndoExercise}
-                  aria-label="Undo completion"
+              return (
+                <article
+                  key={habit.id}
+                  className={`habit-tracker-card ${isCompleted ? "completed" : ""}`}
                 >
-                  <X size={16} aria-hidden="true" />
-                </button>
-              )}
-            </div>
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="flex items-center gap-4">
+                      <div className="habit-tracker-icon">
+                        <span role="img" aria-label={habit.name}>
+                          {getHabitIcon(habit.icon)}
+                        </span>
+                      </div>
+                      <div>
+                        <h3 className="habit-tracker-name">{habit.name}</h3>
+                        <span className="habit-tracker-type">
+                          {habit.type}
+                          {habit.frequency_label &&
+                            habit.frequency_label !== "daily" && (
+                              <span className="ml-2 text-xs text-gray-400">
+                                • {habit.frequency_label}
+                              </span>
+                            )}
+                        </span>
+                      </div>
+                    </div>
+                    {isCompleted && (
+                      <span className="completion-badge">
+                        <Check size={14} aria-hidden="true" />
+                        Done
+                      </span>
+                    )}
+                  </div>
 
-            {!exerciseCompleted ?
-              <button
-                className="mark-done-button"
-                onClick={handleCompleteExercise}
-              >
-                <Check size={18} aria-hidden="true" />
-                <span>Mark Done</span>
-              </button>
-            : <>
-                <div className="habit-progress-bar-full">
-                  <div className="habit-progress-fill-full" />
-                </div>
-                <div className="completion-status">
-                  <Check size={16} aria-hidden="true" />
-                  <span>Completed</span>
-                </div>
-              </>
-            }
+                  {/* Timer-based task */}
+                  {isTimerBased && (
+                    <div className="flex items-center gap-4 flex-wrap mb-4">
+                      <div className="timer-display">
+                        {formatTime(state.timerSeconds || 0)}
+                      </div>
 
-            {showExerciseMessage && (
-              <div className="success-message">
-                <Check size={16} aria-hidden="true" />
-                <span>You showed up for yourself today!</span>
-              </div>
-            )}
-          </article>
+                      {!isCompleted && !state.isTimerRunning && (
+                        <button
+                          className="start-button"
+                          onClick={() => handleStartTimer(habit.id)}
+                        >
+                          <Play size={16} aria-hidden="true" />
+                          <span>Start</span>
+                        </button>
+                      )}
+
+                      {!isCompleted && state.isTimerRunning && (
+                        <>
+                          <button
+                            className="pause-button"
+                            onClick={() => handlePauseTimer(habit.id)}
+                          >
+                            <Pause size={16} aria-hidden="true" />
+                            <span>Pause</span>
+                          </button>
+                          <button
+                            className="complete-button"
+                            onClick={() => handleCompleteTimer(habit.id)}
+                          >
+                            <Check size={16} aria-hidden="true" />
+                            <span>Complete</span>
+                          </button>
+                        </>
+                      )}
+
+                      <span className="target-text ml-auto">
+                        Target:{" "}
+                        {typeof habit.target === "object" ?
+                          `${habit.target?.value} ${habit.target?.unit || "minutes"}`
+                        : `${habit.target || "30"} minutes`}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Quantity-based task */}
+                  {isQuantityBased && (
+                    <div className="flex items-center gap-4 mb-4">
+                      <button
+                        className="quantity-button"
+                        onClick={() => handleDecrementPages(habit.id)}
+                        aria-label="Decrease"
+                        disabled={state.value === 0}
+                      >
+                        <Minus size={18} aria-hidden="true" />
+                      </button>
+                      <span className="quantity-value">{state.value || 0}</span>
+                      <button
+                        className="quantity-button"
+                        onClick={() => handleIncrementPages(habit.id)}
+                        aria-label="Increase"
+                      >
+                        <Plus size={18} aria-hidden="true" />
+                      </button>
+                      <span className="quantity-target">
+                        /{" "}
+                        {typeof habit.target === "object" ?
+                          `${habit.target?.value} ${habit.target?.unit}`
+                        : `${habit.target || "20"} units`}
+                      </span>
+                    </div>
+                  )}
+
+                  {!isQuantityBased && !isTimerBased && (
+                    <div>
+                      {!isCompleted ?
+                        <button
+                          className="mark-done-button"
+                          onClick={() => handleCompleteExercise(habit.id)}
+                        >
+                          <Check size={18} aria-hidden="true" />
+                          <span>Mark Done</span>
+                        </button>
+                      : <>
+                          <div className="habit-progress-bar-full">
+                            <div className="habit-progress-fill-full" />
+                          </div>
+                          <div className="completion-status">
+                            <Check size={16} aria-hidden="true" />
+                            <span>Completed</span>
+                          </div>
+                        </>
+                      }
+                    </div>
+                  )}
+                </article>
+              );
+            })
+          }
         </div>
       </section>
 
       {/* Action Buttons */}
       <footer className="flex gap-4 mt-8 flex-wrap">
-        <button className="action-btn secondary">
+        <Link to="/" className="action-btn secondary">
           <TrendingUp size={18} aria-hidden="true" />
           <span>View Dashboard</span>
-        </button>
-        <button className="action-btn primary">
+        </Link>
+        <Link to="/create-habit" className="action-btn primary">
           <Target size={18} aria-hidden="true" />
           <span>Add New Habit</span>
-        </button>
+        </Link>
       </footer>
     </div>
   );
