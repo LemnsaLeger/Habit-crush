@@ -38,7 +38,7 @@ export default function Header({ onThemeChange }) {
             </div>
           </div>
           <div>
-            <h1 className="header-title">Habit Tracker</h1>
+            <h1 className="header-title">HabitCrush</h1>
             <p className="header-subtitle">Build lasting habits</p>
           </div>
         </Link>
