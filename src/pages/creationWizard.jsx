@@ -14,13 +14,18 @@ const initialHabit = {
     name: "",
     icon: "",
     color: "",
-    type: "",
-    target: "",
+    type: "", // "time" | "quantity" | "value"
+    target: {
+        value: "",
+        unit: "", // "minutes", "hours", "pages", "glasses", etc.
+    },
     frequency: "",
+    frequency_custom: "", // For custom intervals
     motivation: {
-        promotem: false,
-        emergency: false,
-        successMessage: "",
+        whyImportant: "",
+        motivationalQuote: "",
+        obstacles: [],
+        emergencyPlan: "",
     },
     createdAt: null,
 };
@@ -90,18 +95,26 @@ const ALL_DAYS = [
 const finalizeHabit = () => {
   const habits = JSON.parse(localStorage.getItem("habits")) || [];
 
-const normalizedFrequency =
-  habit.frequency === "daily"
-    ? ALL_DAYS
-    : Array.isArray(habit.frequency) && habit.frequency.length > 0
-    ? habit.frequency
-    : ALL_DAYS;
+  // Normalize frequency to day indices (0-6) for consistent filtering
+  let normalizedFrequency = [0, 1, 2, 3, 4, 5, 6]; // Default: daily
+  
+  if (habit.frequency === "daily") {
+    normalizedFrequency = [0, 1, 2, 3, 4, 5, 6];
+  } else if (habit.frequency === "weekly" && Array.isArray(habit.frequency_custom)) {
+    // User selected specific days
+    normalizedFrequency = habit.frequency_custom;
+  } else if (habit.frequency === "custom" && typeof habit.frequency_custom === "string") {
+    // User entered custom text - default to daily but store the custom text for reference
+    normalizedFrequency = [0, 1, 2, 3, 4, 5, 6];
+  }
 
   const completed = {
     ...habit,
     id: crypto.randomUUID(),
     frequency: normalizedFrequency,
+    frequency_label: habit.frequency_custom || "daily", // Store user's custom description
     createdAt: Date.now(),
+    completed: false,
   };
 
   localStorage.setItem("habits", JSON.stringify([...habits, completed]));
