@@ -431,3 +431,352 @@
     height: 10px;
   }
 }
+
+/* Key Insights Section */
+.insights-cards-section {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.insights-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.insight-card {
+  display: flex;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-radius: 0.875rem;
+  border: 1px solid;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  animation: slideInUp 0.4s ease-out;
+}
+
+.insight-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Positive Insights (Success/Progress) */
+.insight-card.insight-positive {
+  background: linear-gradient(135deg, hsl(158 64% 52% / 0.1) 0%, hsl(158 64% 52% / 0.05) 100%);
+  border-color: hsl(158 64% 52% / 0.3);
+}
+
+.insight-card.insight-positive .insight-icon {
+  background: hsl(158 64% 52% / 0.2);
+  color: hsl(158 64% 52%);
+}
+
+.insight-card.insight-positive .insight-text {
+  color: hsl(158 100% 30%);
+  font-weight: 500;
+}
+
+/* Warning Insights (Attention Needed) */
+.insight-card.insight-warning {
+  background: linear-gradient(135deg, hsl(43 96% 56% / 0.1) 0%, hsl(43 96% 56% / 0.05) 100%);
+  border-color: hsl(43 96% 56% / 0.3);
+}
+
+.insight-card.insight-warning .insight-icon {
+  background: hsl(43 96% 56% / 0.2);
+  color: hsl(43 96% 56%);
+}
+
+.insight-card.insight-warning .insight-text {
+  color: hsl(40 100% 35%);
+  font-weight: 500;
+}
+
+.insight-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.625rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.insight-card:hover .insight-icon {
+  transform: scale(1.1);
+}
+
+.insight-text {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  flex: 1;
+}
+
+/* Charts Section */
+.charts-section {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.day-chart {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  gap: 1.25rem;
+  align-items: flex-end;
+}
+
+.day-chart-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.day-bar-container {
+  width: 100%;
+  height: 150px;
+  background: hsl(var(--secondary));
+  border-radius: 0.5rem;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+}
+
+.day-bar {
+  width: 100%;
+  background: linear-gradient(180deg, hsl(var(--accent)) 0%, hsl(174 82% 35%) 100%);
+  transition: all 0.3s ease;
+  border-radius: 0.375rem;
+  min-height: 2px;
+}
+
+.day-bar-container:hover .day-bar {
+  background: linear-gradient(180deg, hsl(186 93% 48%) 0%, hsl(174 82% 35%) 100%);
+  filter: brightness(1.2);
+}
+
+.day-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  width: 100%;
+}
+
+.day-name {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: hsl(var(--muted-foreground));
+  text-transform: uppercase;
+}
+
+.day-rate {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+}
+
+/* Statistics Section */
+.statistics-section {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.stats-detailed-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.detailed-stat {
+  background: hsl(var(--secondary));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.detailed-stat:hover {
+  background: hsl(var(--secondary) / 0.8);
+  border-color: hsl(var(--primary));
+  transform: translateY(-2px);
+}
+
+.detailed-stat label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: hsl(var(--muted-foreground));
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+.detailed-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: hsl(var(--accent));
+}
+
+.best-worst-days {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.best-day-card,
+.worst-day-card {
+  padding: 1.5rem;
+  border-radius: 0.875rem;
+  border: 1px solid hsl(var(--border));
+}
+
+.best-day-card {
+  background: linear-gradient(135deg, hsl(158 64% 52% / 0.1) 0%, hsl(158 64% 52% / 0.05) 100%);
+  border-color: hsl(158 64% 52% / 0.3);
+}
+
+.worst-day-card {
+  background: linear-gradient(135deg, hsl(43 96% 56% / 0.1) 0%, hsl(43 96% 56% / 0.05) 100%);
+  border-color: hsl(43 96% 56% / 0.3);
+}
+
+.best-day-card h3,
+.worst-day-card h3 {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 0.75rem;
+}
+
+.day-name-large {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  margin-bottom: 0.25rem;
+}
+
+.day-rate-large {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+}
+
+/* History Section */
+.history-section {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.history-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.history-list::-webkit-scrollbar-track {
+  background: hsl(var(--secondary));
+  border-radius: 3px;
+}
+
+.history-list::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary));
+  border-radius: 3px;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem 1rem;
+  border-radius: 0.625rem;
+  border: 1px solid hsl(var(--border));
+  transition: all 0.2s ease;
+}
+
+.history-item.completed {
+  background: hsl(158 64% 52% / 0.08);
+  border-color: hsl(158 64% 52% / 0.2);
+}
+
+.history-item.missed {
+  background: hsl(0 84% 60% / 0.08);
+  border-color: hsl(0 84% 60% / 0.2);
+}
+
+.history-item:hover {
+  border-color: hsl(var(--primary));
+  background: hsl(var(--secondary));
+}
+
+.history-date {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--foreground));
+  min-width: 150px;
+}
+
+.history-status {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.badge-completed {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  background: hsl(158 64% 52% / 0.2);
+  color: hsl(158 100% 30%);
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge-missed {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  background: hsl(0 84% 60% / 0.2);
+  color: hsl(0 84% 60%);
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
